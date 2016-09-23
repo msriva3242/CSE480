@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class RestaurantList extends Activity {
 
     // flag for Internet connection status
     Boolean isInternetPresent = false;
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
         isInternetPresent = cd.isConnectingToInternet();
         if (!isInternetPresent) {
             // Internet Connection is not present
-            alert.showAlertDialog(MainActivity.this, "Internet Connection Error",
+            alert.showAlertDialog(RestaurantList.this, "Internet Connection Error",
                     "Please connect to a working Internet connection", false);
             // stop executing code by return
             return;
@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
             Log.d("Your Location", "latitude:" + gps.getLatitude() + ", longitude: " + gps.getLongitude());
         } else {
             // Can't get user's current location
-            alert.showAlertDialog(MainActivity.this, "GPS Status",
+            alert.showAlertDialog(RestaurantList.this, "GPS Status",
                     "Couldn't get location information. Please enable GPS",
                     false);
             // stop executing code by return
@@ -149,7 +149,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog = new ProgressDialog(RestaurantList.this);
             pDialog.setMessage(Html.fromHtml("<b>Search</b><br/>Loading Places..."));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -209,7 +209,7 @@ public class MainActivity extends Activity {
                                 placesListItems.add(map);
                             }
                             // list adapter
-                            ListAdapter adapter = new SimpleAdapter(MainActivity.this, placesListItems,
+                            ListAdapter adapter = new SimpleAdapter(RestaurantList.this, placesListItems,
                                     R.layout.list_item,
                                     new String[] { KEY_REFERENCE, KEY_NAME}, new int[] {
                                     R.id.reference, R.id.name });
@@ -220,37 +220,37 @@ public class MainActivity extends Activity {
                     }
                     else if(status.equals("ZERO_RESULTS")){
                         // Zero results found
-                        alert.showAlertDialog(MainActivity.this, "Near Places",
+                        alert.showAlertDialog(RestaurantList.this, "Near Places",
                                 "Sorry, no places found",
                                 false);
                     }
                     else if(status.equals("UNKNOWN_ERROR"))
                     {
-                        alert.showAlertDialog(MainActivity.this, "Places Error",
+                        alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, an unknown error occurred",
                                 false);
                     }
                     else if(status.equals("OVER_QUERY_LIMIT"))
                     {
-                        alert.showAlertDialog(MainActivity.this, "Places Error",
+                        alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, query limit to google places is reached",
                                 false);
                     }
                     else if(status.equals("REQUEST_DENIED"))
                     {
-                        alert.showAlertDialog(MainActivity.this, "Places Error",
+                        alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, an error occurred. Request is denied",
                                 false);
                     }
                     else if(status.equals("INVALID_REQUEST"))
                     {
-                        alert.showAlertDialog(MainActivity.this, "Places Error",
+                        alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, an error occurred. Invalid Request",
                                 false);
                     }
                     else
                     {
-                        alert.showAlertDialog(MainActivity.this, "Places Error",
+                        alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, an error occurred.",
                                 false);
                     }
