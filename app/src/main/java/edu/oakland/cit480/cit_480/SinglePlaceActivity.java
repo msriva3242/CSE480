@@ -2,14 +2,21 @@ package edu.oakland.cit480.cit_480;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-public class SinglePlaceActivity extends Activity {
+public class SinglePlaceActivity extends Activity implements View.OnClickListener{
+
+    Context context;
+
+    Button button;
     // flag for Internet connection status
     Boolean isInternetPresent = false;
 
@@ -44,6 +51,11 @@ public class SinglePlaceActivity extends Activity {
 
         // Calling an Async Background thread
         new LoadSinglePlaceDetails().execute(reference);
+
+        context = this.getApplicationContext();
+
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(this);
     }
 
     //Background Async Task to Load Google places
@@ -161,5 +173,24 @@ public class SinglePlaceActivity extends Activity {
                 }
             });
         }
+
+
+    }
+    private void button1Click() {
+
+        Intent myIntent = new Intent(context, MenuList.class);
+        //myIntent.putExtra("userInput", userInput.getText().toString());
+        startActivity(myIntent);
+    }
+
+    public void onClick(View v) {
+
+        switch (v.getId())
+        {
+            case R.id.button:
+                button1Click();
+                break;
+        }
+
     }
 }

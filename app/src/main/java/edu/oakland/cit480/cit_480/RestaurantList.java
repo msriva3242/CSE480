@@ -62,7 +62,7 @@ public class RestaurantList extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.restaurant_list);
 
         cd = new ConnectionDetector(getApplicationContext());
         context = this.getApplicationContext();
