@@ -89,6 +89,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (id==android.R.id.home) {
             finish();
         }
+        if (id == R.id.History) {
+            startActivity(new Intent(getApplicationContext(), History.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

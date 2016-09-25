@@ -1,5 +1,6 @@
 package edu.oakland.cit480.cit_480;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -56,6 +59,28 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+        }
+        if (id == R.id.History) {
+            startActivity(new Intent(getApplicationContext(), History.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //Background Async Task to Load Google places
@@ -173,7 +198,6 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                 }
             });
         }
-
 
     }
     private void button1Click() {
