@@ -18,19 +18,23 @@
     <application
         android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="Meal Reel"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:screenOrientation="portrait" >
         <activity
             android:name=".RestaurantList"
-            android:label="Restaurants Near You"></activity>
+            android:label="Restaurants Near You"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MapsActivity"
-            android:label="Restaurants Near You" />
+            android:label="Restaurants Near You"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SinglePlaceActivity"
-            android:label="Restaurant Details" />
+            android:label="Restaurant Details"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -38,29 +42,40 @@
 
         <activity
             android:name=".Questionnaire"
-            android:label="Food Questionnaire">
-            <intent-filter>
-                <action android:name="edu.oakland.cit480.cit_480.Questionnaire" />
+            android:label="Food Questionnaire"
+            android:screenOrientation="portrait">
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MenuList"
-            android:label="Restaurant Menu" />
+            android:label="Restaurant Menu"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainMenu"
-            android:label="Main Menu">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="Main Menu"
+            android:screenOrientation="portrait">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".History"
-            android:label="@string/title_activity_history">
-    </activity>
+            android:label="@string/title_activity_history"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LoginPage"
+            android:label="Meal Reel"
+            android:screenOrientation="portrait">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
+            android:name=".RegisterPage"
+            android:label="Register New User"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

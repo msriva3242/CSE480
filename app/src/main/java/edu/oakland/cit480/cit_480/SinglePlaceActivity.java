@@ -80,6 +80,10 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
             startActivity(new Intent(getApplicationContext(), History.class));
             return true;
         }
+        if (id == R.id.Logout) {
+            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

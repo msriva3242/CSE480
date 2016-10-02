@@ -13,7 +13,7 @@ import android.widget.Button;
 public class MainMenu extends Activity implements View.OnClickListener{
 
     Context context;
-    Button button2, button3, buttonHistory;
+    Button button2, button3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,10 @@ public class MainMenu extends Activity implements View.OnClickListener{
             startActivity(new Intent(getApplicationContext(), History.class));
             return true;
         }
+        if (id == R.id.Logout) {
+            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -54,7 +58,7 @@ public class MainMenu extends Activity implements View.OnClickListener{
     }
     private void button3Click() {
 
-        Intent myIntent = new Intent(context, Questionnaire.class);
+        Intent myIntent = new Intent(getApplicationContext(), Questionnaire.class);
         //myIntent.putExtra("userInput", userInput.getText().toString());
         startActivity(myIntent);
     }

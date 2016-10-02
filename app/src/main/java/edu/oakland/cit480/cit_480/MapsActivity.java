@@ -93,6 +93,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             startActivity(new Intent(getApplicationContext(), History.class));
             return true;
         }
+        if (id == R.id.Logout) {
+            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

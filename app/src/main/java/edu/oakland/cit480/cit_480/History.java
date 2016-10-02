@@ -30,6 +30,10 @@ public class History extends Activity {
         if (id==android.R.id.home) {
             finish();
         }
+        if (id == R.id.Logout) {
+            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
