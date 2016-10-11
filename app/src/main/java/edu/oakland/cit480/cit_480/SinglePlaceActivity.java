@@ -7,12 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class SinglePlaceActivity extends Activity implements View.OnClickListener{
@@ -37,6 +40,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
     // Progress dialog
     ProgressDialog pDialog;
+    ProgressBar progressbar;
 
     // KEY Strings
     public static String KEY_REFERENCE = "reference"; // id of the place
@@ -48,6 +52,9 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.single_place);
 
         Intent i = getIntent();
+
+        progressbar = (ProgressBar)findViewById(R.id.progressBar2);
+        progressbar.setVisibility(View.GONE);
 
         // Place reference id
         String reference = i.getStringExtra(KEY_REFERENCE);
@@ -205,16 +212,28 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
     }
     private void button1Click() {
+        Handler h = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                progressbar.setVisibility(View.VISIBLE);
 
-        Intent myIntent = new Intent(context, MenuList.class);
-        //myIntent.putExtra("userInput", userInput.getText().toString());
-        startActivity(myIntent);
+                Intent i = new Intent().setClass(context, MenuList.class);
+                startActivity(i);
+            }
+        };
+
+
+        h.sendEmptyMessageDelayed(0, 1500);
+        progressbar.setVisibility(View.GONE);
+
+
     }
 
     public void onClick(View v) {
 
         switch (v.getId())
         {
+
             case R.id.button:
                 button1Click();
                 break;

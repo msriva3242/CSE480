@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Please rate the following items from 1 - 5:"
+        android:text="Please rate the selected items from 1 - 5:"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
@@ -49,11 +49,39 @@
             android:weightSum="1">
 
 
+            <CheckBox
+                android:text="Flavors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox4"
+                android:onClick="OnCheckBoxClick" />
+
+            <CheckBox
+                android:text="Preperation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox3"
+                android:onClick="OnCheckBoxClick" />
+
+            <CheckBox
+                android:text="Texture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox2"
+                android:onClick="OnCheckBoxClick" />
+
+            <CheckBox
+                android:text="Other"
+                android:layout_width="121dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox"
+                android:onClick="OnCheckBoxClick" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Grilled:"
+                android:text="Salty:"
                 android:id="@+id/textView3"
                 android:layout_below="@+id/textView2"
                 android:layout_toLeftOf="@+id/textView"
@@ -71,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Boiled:"
+                android:text="Sweet:"
                 android:id="@+id/textView4"
                 android:layout_below="@+id/ratingBar"
                 android:layout_alignLeft="@+id/ratingBar"
@@ -89,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Baked:"
+                android:text="Umami:"
                 android:id="@+id/textView5"
                 android:layout_below="@+id/ratingBar2"
                 android:layout_alignLeft="@+id/ratingBar2"
@@ -107,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Salty"
+                android:text="Bitter:"
                 android:id="@+id/textView6" />
 
             <RatingBar
@@ -119,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Sweet"
+                android:text="Sour:"
                 android:id="@+id/textView7" />
 
             <RatingBar
@@ -131,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Umami"
+                android:text="Spicy:"
                 android:id="@+id/textView8" />
 
             <RatingBar
@@ -143,7 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Bitter"
+                android:text="Creamy:"
                 android:id="@+id/textView9" />
 
             <RatingBar
@@ -155,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Sour"
+                android:text="Grilled:"
                 android:id="@+id/textView10" />
 
             <RatingBar
@@ -167,7 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Crisp"
+                android:text="Boiled:"
                 android:id="@+id/textView11" />
 
             <RatingBar
@@ -179,7 +207,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Crunchy"
+                android:text="Baked:"
                 android:id="@+id/textView12" />
 
             <RatingBar
@@ -191,7 +219,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Spicy"
+                android:text="Steamed:"
                 android:id="@+id/textView13" />
 
             <RatingBar
@@ -203,7 +231,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Herbed"
+                android:text="Deep-fried:"
                 android:id="@+id/textView14" />
 
             <RatingBar
@@ -215,7 +243,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Nutritious"
+                android:text="Crisp:"
                 android:id="@+id/textView15" />
 
             <RatingBar
@@ -227,7 +255,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Steamed"
+                android:text="Crunchy:"
                 android:id="@+id/textView16" />
 
             <RatingBar
@@ -239,7 +267,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Buttered"
+                android:text="Leafy:"
                 android:id="@+id/textView17" />
 
             <RatingBar
@@ -251,7 +279,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Deep-fried"
+                android:text="Tender:"
                 android:id="@+id/textView18" />
 
             <RatingBar
@@ -263,7 +291,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Leafy"
+                android:text="Cheesy:"
                 android:id="@+id/textView19" />
 
             <RatingBar
@@ -275,7 +303,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Cheesy"
+                android:text="Nutritious:"
                 android:id="@+id/textView20" />
 
             <RatingBar
@@ -287,7 +315,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Creamy"
+                android:text="Herbed:"
                 android:id="@+id/textView21" />
 
             <RatingBar
@@ -299,13 +327,79 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Tender"
+                android:text="Bold:"
                 android:id="@+id/textView22" />
 
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ratingBar20" />
+
+            <TextView
+                android:text="If you have any allergies, please identify below:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView23" />
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox5"
+                android:text="Eggs" />
+
+            <CheckBox
+                android:text="Fish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox6" />
+
+            <CheckBox
+                android:text="Milk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox7" />
+
+            <CheckBox
+                android:text="Tree Nuts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox8" />
+
+            <CheckBox
+                android:text="Peanuts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox9" />
+
+            <CheckBox
+                android:text="Shellfish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox10" />
+
+            <CheckBox
+                android:text="Soy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox11" />
+
+            <CheckBox
+                android:text="Wheat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox12" />
+
+            <CheckBox
+                android:text="Glutten"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox13" />
+
+            <CheckBox
+                android:text="Sesame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox14" />
 
             <Button
                 android:text="Submit"
