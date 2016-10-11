@@ -42,7 +42,7 @@ public class Questionnaire extends Activity implements View.OnClickListener {
     RatingBar ratingBar19;
     RatingBar ratingBar20;
     RatingBar ratingBar3;
-    //THIS IS NEW SHIT
+
     TextView Salty;
     TextView Grilled;
     TextView Boiled;
@@ -100,7 +100,7 @@ public class Questionnaire extends Activity implements View.OnClickListener {
 
 
         submitButton.setOnClickListener(this);
-        //NEW SHIT
+
         Nutritious = (TextView) findViewById(R.id.textView20);
         Herbed = (TextView) findViewById(R.id.textView21);
         Sweet = (TextView) findViewById(R.id.textView4);
@@ -238,7 +238,7 @@ public class Questionnaire extends Activity implements View.OnClickListener {
 
     }
 
-    //NEW SHIT
+
     public void OnCheckBoxClick(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 
