@@ -194,7 +194,7 @@ public class RestaurantList extends Activity {
                 String types = "restaurant";
 
                 // Radius in meters
-                double radius = 8406; // Finds restaurants within a 2-mile radius
+                double radius = 3218; // Finds restaurants within a 2-mile radius
 
                 // get nearest places
                 nearPlaces = googlePlaces.search(gps.getLatitude(),
