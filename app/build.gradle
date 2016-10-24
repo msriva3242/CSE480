@@ -34,5 +34,4 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:24.+'
     compile 'com.android.support:design:24.+'
-    compile 'com.jakewharton:butterknife:7.0.1'
 }

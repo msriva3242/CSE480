@@ -191,10 +191,10 @@ public class RestaurantList extends Activity {
 
             try {
                 // Listing places - only cafes, restaurants
-                String types = "cafe|restaurant";
+                String types = "restaurant";
 
                 // Radius in meters
-                double radius = 8046; // Finds restaurants within a 2-mile radius
+                double radius = 8406; // Finds restaurants within a 2-mile radius
 
                 // get nearest places
                 nearPlaces = googlePlaces.search(gps.getLatitude(),
@@ -222,6 +222,7 @@ public class RestaurantList extends Activity {
                     if(status.equals("OK")){
                         // Successfully got places details
                         if (nearPlaces.results != null) {
+
                             // loop through each place
                             for (Place p : nearPlaces.results) {
                                 HashMap<String, String> map = new HashMap<String, String>();
@@ -244,7 +245,14 @@ public class RestaurantList extends Activity {
                                     R.id.reference, R.id.name });
 
                             // Adding data into listview
-                            lv.setAdapter(adapter);
+                            if (KEY_REFERENCE == "ChIJzzJjnVL4JIgR-poJ7u8dJI4"){
+
+                                lv = null;
+                            }
+                            else{
+                                lv.setAdapter(adapter);
+                            }
+
                         }
                     }
                     else if(status.equals("ZERO_RESULTS")){

@@ -508,5 +508,6 @@ Root Beer Old Fashioned"
     <string name="title_activity_history">History</string>
     <string name="title_activity_login_page">LoginPage</string>
     <string name="title_activity_register_page">RegisterPage</string>
+    <string name="title_activity_recommendations">Recommendations</string>
 
 </resources>

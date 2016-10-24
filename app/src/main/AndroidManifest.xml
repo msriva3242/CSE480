@@ -20,21 +20,21 @@
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="Meal Reel"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:screenOrientation="portrait" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".RestaurantList"
             android:label="Restaurants Near You"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MapsActivity"
             android:label="Restaurants Near You"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SinglePlaceActivity"
             android:label="Restaurant Details"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -44,37 +44,39 @@
             android:name=".Questionnaire"
             android:label="Food Questionnaire"
             android:screenOrientation="portrait">
-
         </activity>
         <activity
             android:name=".MenuList"
             android:label="Restaurant Menu"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainMenu"
             android:label="Main Menu"
             android:screenOrientation="portrait">
-
         </activity>
         <activity
             android:name=".History"
             android:label="@string/title_activity_history"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginPage"
             android:label="Meal Reel"
             android:screenOrientation="portrait">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".RegisterPage"
             android:label="Register New User"
             android:screenOrientation="portrait">
-
+        </activity>
+        <activity
+            android:name=".Recommendations"
+            android:label="@string/title_activity_recommendations">
         </activity>
     </application>
 

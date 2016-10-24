@@ -22,7 +22,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
     Context context;
 
-    Button button;
+    Button button, button8;
     // flag for Internet connection status
     Boolean isInternetPresent = false;
 
@@ -66,6 +66,9 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
+
+        button8 = (Button) findViewById(R.id.button8);
+        button8.setOnClickListener(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -228,6 +231,11 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
 
     }
+    private void button2Click() {
+
+        startActivity(new Intent(getApplicationContext(), Recommendations.class));
+
+    }
 
     public void onClick(View v) {
 
@@ -236,6 +244,9 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
             case R.id.button:
                 button1Click();
+                break;
+            case R.id.button8:
+                button2Click();
                 break;
         }
 

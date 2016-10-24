@@ -3,17 +3,28 @@ package edu.oakland.cit480.cit_480;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainMenu extends Activity implements View.OnClickListener{
 
     Context context;
     Button button2, button3;
+    TextView welcomeBox;
+    String username;
+
+    //Added 10/19
+    @Override
+    public void onBackPressed(){
+        this.finishAffinity();
+        //Don't allow user to use back button to return to the login screen
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +38,11 @@ public class MainMenu extends Activity implements View.OnClickListener{
 
         button3 = (Button) findViewById(R.id.button3);
         button3.setOnClickListener(this);
+        welcomeBox = (TextView) findViewById(R.id.textView);
+        //Added 10/19
+        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
+        String username = sp.getString("USER_NAME", "");
+        welcomeBox.setText("Welcome, "+username);
 
     }
     @Override
@@ -44,12 +60,24 @@ public class MainMenu extends Activity implements View.OnClickListener{
             return true;
         }
         if (id == R.id.Logout) {
+            //Added 10/19
+            //Clear sharedprefs
+            clearUserPrefs();
+
+
             startActivity(new Intent(getApplicationContext(), LoginPage.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    //Added 10/19
+    public void clearUserPrefs(){
+        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+    }
     private void button2Click() {
 
         Intent myIntent = new Intent(context, RestaurantList.class);
@@ -79,3 +107,4 @@ public class MainMenu extends Activity implements View.OnClickListener{
     }
 
 }
+

@@ -1,13 +1,16 @@
 package edu.oakland.cit480.cit_480;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,10 +26,24 @@ public class LoginPage extends Activity {
     EditText username, password;
     String Username, Password;
     Context ctx=this;
-    String USERNAME=null, PASSWORD=null, EMAIL=null;
+    String USERNAME=null, PASSWORD=null, EMAIL=null, RETURN_MESSAGE=null;
+    int SUCCESS;
+
+
+    @Override
+    public void onBackPressed(){
+        this.finishAffinity();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
+        String getUser = sp.getString("USER_NAME", "");
+        if (!getUser.isEmpty()){
+            //This will skip the login page if a user has already logged in previously
+            checkDB(); //When we can fetch the ID we'll check the client's ID against the DB
+
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_test);
         username = (EditText) findViewById(R.id.main_name);
@@ -57,7 +74,7 @@ public class LoginPage extends Activity {
             int tmp;
 
             try {
-                URL url = new URL("http://www.secs.oakland.edu/~djrasmus/480/login.php");
+                URL url = new URL("http://www.secs.oakland.edu/~djrasmus/480/index.php");
                 String urlParams = "username="+username+"&password="+password;
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -93,29 +110,57 @@ public class LoginPage extends Activity {
         protected void onPostExecute(String s) {
             String err=null;
             try {
+
+                Log.d("JSON:",""+s);
                 JSONObject root = new JSONObject(s);
                 JSONObject user_data = root.getJSONObject("user_data");
+                RETURN_MESSAGE = user_data.getString("message");
                 USERNAME = user_data.getString("username");
-                PASSWORD = user_data.getString("password");
-                EMAIL = user_data.getString("email");
+                SUCCESS = user_data.getInt("success");
             } catch (JSONException e) {
                 e.printStackTrace();
                 err = "Exception: "+e.getMessage();
             }
+            s = RETURN_MESSAGE;
+            switch(SUCCESS){
 
-            Intent i = new Intent(ctx, MainMenu.class);
-            i.putExtra("name", USERNAME);
-            i.putExtra("password", PASSWORD);
-            i.putExtra("email", EMAIL);
-            i.putExtra("err", err);
+                case 0:
+                    s = "Invalid user/password";
+                    Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
 
-            startActivity(i);
 
+                    Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(ctx, MainMenu.class);
+                    save("USER_NAME", USERNAME);
+                    startActivity(i);
+                    break;
+                default:
+                    s = "Unknown Error";
+                    Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
+                    break;
+
+
+
+            }
 
 
 
 
         }
 
+        public void save(String key, String value){
+            SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("USER_NAME", USERNAME);
+            editor.commit();
+        }
+
+    }
+    public void checkDB(){
+        Intent i = new Intent(ctx, MainMenu.class);
+        startActivity(i);
     }
 }
+

@@ -44,7 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     double latitude;
     double longitude;
-    private int PROXIMITY_RADIUS = 8046; //Finds restaurants within a 2-mile radius
+    private int PROXIMITY_RADIUS = 3218; //Finds restaurants within a 2-mile radius
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
@@ -133,7 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
         btnRestaurant.setOnClickListener(new View.OnClickListener() {
-            String Restaurant = "cafe|restaurant";
+            String Restaurant = "restaurant";
 
             @Override
             public void onClick(View v) {

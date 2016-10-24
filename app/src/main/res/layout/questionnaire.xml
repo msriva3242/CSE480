@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Please rate the selected items from 1 - 5:"
+        android:text="Please rate the following items from 1 - 5:"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
@@ -335,8 +335,15 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/ratingBar20" />
 
+            <CheckBox
+                android:text="Any allergies?"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox15"
+                android:onClick="OnCheckBoxClick" />
+
             <TextView
-                android:text="If you have any allergies, please identify below:"
+                android:text="Please identify below which allergies you have:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView23" />
@@ -345,61 +352,71 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/checkBox5"
-                android:text="Eggs" />
+                android:text="Eggs"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Fish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox6" />
+                android:id="@+id/checkBox6"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Milk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox7" />
+                android:id="@+id/checkBox7"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Tree Nuts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox8" />
+                android:id="@+id/checkBox8"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Peanuts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox9" />
+                android:id="@+id/checkBox9"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Shellfish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox10" />
+                android:id="@+id/checkBox10"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Soy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox11" />
+                android:id="@+id/checkBox11"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Wheat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox12" />
+                android:id="@+id/checkBox12"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Glutten"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox13" />
+                android:id="@+id/checkBox13"
+                android:onClick="OnCheckBoxClick" />
 
             <CheckBox
                 android:text="Sesame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkBox14" />
+                android:id="@+id/checkBox14"
+                android:onClick="OnCheckBoxClick" />
 
             <Button
                 android:text="Submit"
