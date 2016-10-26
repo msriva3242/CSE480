@@ -2,8 +2,10 @@ package edu.oakland.cit480.cit_480;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,11 +18,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.Random;
 
 public class SinglePlaceActivity extends Activity implements View.OnClickListener{
 
+    String s;
+
     Context context;
+
+    String NAME=null, RAT=null;
 
     Button button, button8;
     // flag for Internet connection status
@@ -45,6 +66,17 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
     // KEY Strings
     public static String KEY_REFERENCE = "reference"; // id of the place
 
+    TextView rar[] = new TextView[20];
+
+    TextView num[] = new TextView[20];
+
+    float man[] = new float[20];
+
+    String names;
+
+    Context ctx=this;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -53,8 +85,8 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
         Intent i = getIntent();
 
-        progressbar = (ProgressBar)findViewById(R.id.progressBar2);
-        progressbar.setVisibility(View.GONE);
+        //progressbar = (ProgressBar)findViewById(R.id.progressBar2);
+        //progressbar.setVisibility(View.GONE);
 
         // Place reference id
         String reference = i.getStringExtra(KEY_REFERENCE);
@@ -218,22 +250,174 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         Handler h = new Handler(){
             @Override
             public void handleMessage(Message msg) {
-                progressbar.setVisibility(View.VISIBLE);
+                //progressbar.setVisibility(View.VISIBLE);
+                TextView lbl_name = (TextView) findViewById(R.id.name);
+                CharSequence name = lbl_name.getText();
+                names = name.toString();
 
-                Intent i = new Intent().setClass(context, MenuList.class);
-                startActivity(i);
+                BackGround me = new BackGround();
+                me.execute(names);
+                //progressbar.setVisibility(View.GONE);
             }
         };
 
 
         h.sendEmptyMessageDelayed(0, 1500);
-        progressbar.setVisibility(View.GONE);
+        //progressbar.setVisibility(View.GONE);
 
 
     }
     private void button2Click() {
 
-        startActivity(new Intent(getApplicationContext(), Recommendations.class));
+        //startActivity(new Intent(getApplicationContext(), Recommendations.class));
+        s="The menu item has been successfully saved to your history page!";
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(SinglePlaceActivity.this);
+        builder1.setTitle("Recommendation #1:");
+        builder1.setMessage("Sweet Onion Chicken\n\nWould you like to order this item?");
+        builder1.setCancelable(true);
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(SinglePlaceActivity.this);
+                        builder1.setTitle("Recommendation #2:");
+                        builder1.setMessage("Black Forest Ham \n\nWould you like to order this item?");
+                        builder1.setCancelable(true);
+
+
+                        builder1.setNegativeButton(
+                                "No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(SinglePlaceActivity.this);
+                                        builder1.setTitle("Recommendation #3:");
+                                        builder1.setMessage("Veggie Delite\n\nWould you like to order this item?");
+                                        builder1.setCancelable(true);
+
+                                        builder1.setPositiveButton(
+                                                "Yes",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        Toast.makeText(SinglePlaceActivity.this, s, Toast.LENGTH_LONG).show();
+                                                        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+                                                        //myIntent.putExtra("userInput", userInput.getText().toString());
+                                                        startActivity(myIntent);
+                                                    }
+                                                });
+
+                                        builder1.setNegativeButton(
+                                                "No",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(SinglePlaceActivity.this);
+                                                        builder1.setTitle("Recommendation #4:");
+                                                        builder1.setMessage("Sunrise Subway Melt\n\nWould you like to order this item?");
+                                                        builder1.setCancelable(true);
+
+                                                        builder1.setPositiveButton(
+                                                                "Yes",
+                                                                new DialogInterface.OnClickListener() {
+                                                                    public void onClick(DialogInterface dialog, int id) {
+                                                                        Toast.makeText(SinglePlaceActivity.this, s, Toast.LENGTH_LONG).show();
+                                                                        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+                                                                        //myIntent.putExtra("userInput", userInput.getText().toString());
+                                                                        startActivity(myIntent);
+                                                                    }
+                                                                });
+
+                                                        builder1.setNegativeButton(
+                                                                "No",
+                                                                new DialogInterface.OnClickListener() {
+                                                                    public void onClick(DialogInterface dialog, int id) {
+                                                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(SinglePlaceActivity.this);
+                                                                        builder1.setTitle("Recommendation #5:");
+                                                                        builder1.setMessage("Chicken Parmesan\n\nWould you like to order this item?");
+                                                                        builder1.setCancelable(true);
+
+                                                                        builder1.setPositiveButton(
+                                                                                "Yes",
+                                                                                new DialogInterface.OnClickListener() {
+                                                                                    public void onClick(DialogInterface dialog, int id) {
+                                                                                        Toast.makeText(SinglePlaceActivity.this, s, Toast.LENGTH_LONG).show();
+                                                                                        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+                                                                                        //myIntent.putExtra("userInput", userInput.getText().toString());
+                                                                                        startActivity(myIntent);
+                                                                                    }
+                                                                                });
+
+                                                                        builder1.setNegativeButton(
+                                                                                "No",
+                                                                                new DialogInterface.OnClickListener() {
+                                                                                    public void onClick(DialogInterface dialog, int id) {
+                                                                                        final AlertDialog.Builder builder1 = new AlertDialog.Builder(SinglePlaceActivity.this);
+                                                                                        builder1.setMessage("We're all out of recommendations. Have a look at the restaurant's menu.");
+                                                                                        builder1.setCancelable(true);
+
+                                                                                        builder1.setPositiveButton(
+                                                                                                "Ok",
+                                                                                                new DialogInterface.OnClickListener() {
+                                                                                                    public void onClick(DialogInterface dialog, int id) {
+                                                                                                        dialog.dismiss();
+                                                                                                    }
+                                                                                                });
+
+                                                                                        AlertDialog alert11 = builder1.create();
+                                                                                        alert11.show();
+
+
+                                                                                    }
+                                                                                });
+                                                                        AlertDialog alert11 = builder1.create();
+                                                                        alert11.show();
+                                                                    }
+                                                                });
+
+                                                        AlertDialog alert11 = builder1.create();
+                                                        alert11.show();
+                                                    }
+                                                });
+
+                                        AlertDialog alert11 = builder1.create();
+                                        alert11.show();
+                                    }
+                                });
+
+                        builder1.setPositiveButton(
+                                "Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Toast.makeText(SinglePlaceActivity.this, s, Toast.LENGTH_LONG).show();
+                                        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+                                        //myIntent.putExtra("userInput", userInput.getText().toString());
+                                        startActivity(myIntent);
+                                    }
+                                });
+
+
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+                    }
+
+
+                });
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(SinglePlaceActivity.this, s, Toast.LENGTH_LONG).show();
+                        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+                        //myIntent.putExtra("userInput", userInput.getText().toString());
+                        startActivity(myIntent);
+                    }
+                });
+
+
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
 
     }
 
@@ -251,4 +435,179 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         }
 
     }
+    class BackGround extends AsyncTask<String, String, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            String name = params[0];
+
+            String data="";
+            int tmp;
+
+            try {
+                URL url = new URL("http://www.secs.oakland.edu/~djrasmus/480/menus3.php");
+                String urlParams = "name="+name;
+
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                OutputStream os = httpURLConnection.getOutputStream();
+                os.write(urlParams.getBytes());
+                try {
+                    os.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                os.close();
+
+                InputStream is = httpURLConnection.getInputStream();
+                while((tmp=is.read())!=-1){
+                    data+= (char)tmp;
+
+                }
+
+                is.close();
+                httpURLConnection.disconnect();
+
+                return data;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return "Exception: "+e.getMessage();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Exception: "+e.getMessage();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            String err=null;
+            rar[0] = (TextView) findViewById(R.id.textView32);
+            rar[1] = (TextView) findViewById(R.id.textView33);
+            rar[2] = (TextView) findViewById(R.id.textView35);
+            rar[3] = (TextView) findViewById(R.id.textView37);
+            rar[4] = (TextView) findViewById(R.id.textView39);
+            rar[5] = (TextView) findViewById(R.id.textView41);
+            rar[6] = (TextView) findViewById(R.id.textView43);
+            rar[7] = (TextView) findViewById(R.id.textView45);
+            rar[8] = (TextView) findViewById(R.id.textView47);
+            rar[9] = (TextView) findViewById(R.id.textView49);
+            rar[10] = (TextView) findViewById(R.id.textView51);
+            rar[11] = (TextView) findViewById(R.id.textView53);
+            rar[12] = (TextView) findViewById(R.id.textView55);
+            rar[13] = (TextView) findViewById(R.id.textView57);
+            rar[14] = (TextView) findViewById(R.id.textView59);
+            rar[15] = (TextView) findViewById(R.id.textView61);
+            rar[16] = (TextView) findViewById(R.id.textView63);
+            rar[17] = (TextView) findViewById(R.id.textView65);
+            rar[18] = (TextView) findViewById(R.id.textView67);
+            rar[19] = (TextView) findViewById(R.id.textView69);
+            num[0] = (TextView) findViewById(R.id.textView28);
+            num[1] = (TextView) findViewById(R.id.textView34);
+            num[2] = (TextView) findViewById(R.id.textView36);
+            num[3] = (TextView) findViewById(R.id.textView38);
+            num[4] = (TextView) findViewById(R.id.textView40);
+            num[5] = (TextView) findViewById(R.id.textView42);
+            num[6] = (TextView) findViewById(R.id.textView44);
+            num[7] = (TextView) findViewById(R.id.textView46);
+            num[8] = (TextView) findViewById(R.id.textView48);
+            num[9] = (TextView) findViewById(R.id.textView50);
+            num[10] = (TextView) findViewById(R.id.textView52);
+            num[11] = (TextView) findViewById(R.id.textView54);
+            num[12] = (TextView) findViewById(R.id.textView56);
+            num[13] = (TextView) findViewById(R.id.textView58);
+            num[14] = (TextView) findViewById(R.id.textView60);
+            num[15] = (TextView) findViewById(R.id.textView62);
+            num[16] = (TextView) findViewById(R.id.textView64);
+            num[17] = (TextView) findViewById(R.id.textView66);
+            num[18] = (TextView) findViewById(R.id.textView68);
+            num[19] = (TextView) findViewById(R.id.textView70);
+
+
+
+            try {
+                JSONObject root = new JSONObject(s);
+                JSONArray menu = root.getJSONArray("results");
+                for (int i =0; i<rar.length; i++) {
+                    JSONObject ff = menu.getJSONObject(i);
+                    NAME = ff.getString("NAME");
+                    rar[i].setText(NAME);
+                    /*RAT = ff.getString("RATING");
+                    num[i].setText(RAT);*/
+                }
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                err = "Exception: "+e.getMessage();
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            for (int i = 0; i<num.length ; i++) {
+                Random nums = new Random();
+                float temp = nums.nextFloat();
+                int temps = nums.nextInt(2);
+                float tempss = temp + temps +3;
+                DecimalFormat df = new DecimalFormat();
+                df.setMaximumFractionDigits(2);
+                //System.out.println(df.format(decimalNumber));
+
+                num[i].setText(df.format(tempss));
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+    }
 }
+
+
+
+
