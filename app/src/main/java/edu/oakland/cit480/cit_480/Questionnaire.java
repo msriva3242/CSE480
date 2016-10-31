@@ -88,10 +88,6 @@ public class Questionnaire extends Activity implements View.OnClickListener{
 
     Context ctx = this;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -221,12 +217,14 @@ public class Questionnaire extends Activity implements View.OnClickListener{
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        MenuItem mainMenu = menu.findItem(R.id.MainMenu);
+        mainMenu.setVisible(false);
         return true;
     }
 
@@ -241,7 +239,18 @@ public class Questionnaire extends Activity implements View.OnClickListener{
             startActivity(new Intent(getApplicationContext(), History.class));
             return true;
         }
+        if (id == R.id.Logout) {
+            //clearUserPrefs();
+            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+    public void clearUserPrefs() {
+        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
     }
     private void doneButtonClick() {
 

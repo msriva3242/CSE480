@@ -31,10 +31,13 @@ public class History extends Activity {
             finish();
         }
         if (id == R.id.Logout) {
-            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            startActivity(new Intent(History.this, LoginPage.class));
             return true;
         }
-
+        if (id == R.id.MainMenu) {
+            startActivity(new Intent(History.this, MainMenu.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

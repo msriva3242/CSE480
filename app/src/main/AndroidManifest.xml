@@ -46,10 +46,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".MenuList"
-            android:label="Restaurant Menu"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".MainMenu"
             android:label="Main Menu"
             android:screenOrientation="portrait">

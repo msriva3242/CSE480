@@ -13,12 +13,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,15 +34,22 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public class SinglePlaceActivity extends Activity implements View.OnClickListener{
 
     String s;
+
+    ArrayList<String> arr = new ArrayList<String>();
 
     Context context;
 
@@ -66,9 +78,11 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
     // KEY Strings
     public static String KEY_REFERENCE = "reference"; // id of the place
 
-    TextView rar[] = new TextView[20];
+    String rar[] = new String[30];
 
-    TextView num[] = new TextView[20];
+    float num[] = new float[30];
+
+    DecimalFormat test[] = new DecimalFormat[30];
 
     float man[] = new float[20];
 
@@ -123,7 +137,11 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
             return true;
         }
         if (id == R.id.Logout) {
-            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            startActivity(new Intent(SinglePlaceActivity.this, LoginPage.class));
+            return true;
+        }
+        if (id == R.id.MainMenu) {
+            startActivity(new Intent(SinglePlaceActivity.this, MainMenu.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -186,7 +204,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                                 TextView lbl_name = (TextView) findViewById(R.id.name);
                                 TextView lbl_address = (TextView) findViewById(R.id.address);
                                 TextView lbl_phone = (TextView) findViewById(R.id.phone);
-                                TextView lbl_location = (TextView) findViewById(R.id.location);
+                                //TextView lbl_location = (TextView) findViewById(R.id.location);
 
                                 // Check for null data from google
                                 name = name == null ? "Not present" : name; // if name is null display as "Not present"
@@ -198,7 +216,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                                 lbl_name.setText(name);
                                 lbl_address.setText(address);
                                 lbl_phone.setText(Html.fromHtml("<b>Phone:</b> " + phone));
-                                lbl_location.setText(Html.fromHtml("<b>Latitude:</b> " + latitude + ", <b>Longitude:</b> " + longitude));
+                                //lbl_location.setText(Html.fromHtml("<b>Latitude:</b> " + latitude + ", <b>Longitude:</b> " + longitude));
                             }
                         }
                         else if(status.equals("ZERO_RESULTS")){
@@ -247,9 +265,6 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
     }
     private void button1Click() {
-        Handler h = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
                 //progressbar.setVisibility(View.VISIBLE);
                 TextView lbl_name = (TextView) findViewById(R.id.name);
                 CharSequence name = lbl_name.getText();
@@ -257,19 +272,11 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
                 BackGround me = new BackGround();
                 me.execute(names);
+
                 //progressbar.setVisibility(View.GONE);
             }
-        };
-
-
-        h.sendEmptyMessageDelayed(0, 1500);
-        //progressbar.setVisibility(View.GONE);
-
-
-    }
     private void button2Click() {
 
-        //startActivity(new Intent(getApplicationContext(), Recommendations.class));
         s="The menu item has been successfully saved to your history page!";
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(SinglePlaceActivity.this);
@@ -449,7 +456,6 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                 URL url = new URL("http://www.secs.oakland.edu/~djrasmus/480/menus3.php");
                 String urlParams = "name="+name;
 
-
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
                 OutputStream os = httpURLConnection.getOutputStream();
@@ -482,28 +488,9 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
         @Override
         protected void onPostExecute(String s) {
+            ViewHolder holder;
             String err=null;
-            rar[0] = (TextView) findViewById(R.id.textView32);
-            rar[1] = (TextView) findViewById(R.id.textView33);
-            rar[2] = (TextView) findViewById(R.id.textView35);
-            rar[3] = (TextView) findViewById(R.id.textView37);
-            rar[4] = (TextView) findViewById(R.id.textView39);
-            rar[5] = (TextView) findViewById(R.id.textView41);
-            rar[6] = (TextView) findViewById(R.id.textView43);
-            rar[7] = (TextView) findViewById(R.id.textView45);
-            rar[8] = (TextView) findViewById(R.id.textView47);
-            rar[9] = (TextView) findViewById(R.id.textView49);
-            rar[10] = (TextView) findViewById(R.id.textView51);
-            rar[11] = (TextView) findViewById(R.id.textView53);
-            rar[12] = (TextView) findViewById(R.id.textView55);
-            rar[13] = (TextView) findViewById(R.id.textView57);
-            rar[14] = (TextView) findViewById(R.id.textView59);
-            rar[15] = (TextView) findViewById(R.id.textView61);
-            rar[16] = (TextView) findViewById(R.id.textView63);
-            rar[17] = (TextView) findViewById(R.id.textView65);
-            rar[18] = (TextView) findViewById(R.id.textView67);
-            rar[19] = (TextView) findViewById(R.id.textView69);
-            num[0] = (TextView) findViewById(R.id.textView28);
+            /*num[0] = (TextView) findViewById(R.id.textView28);
             num[1] = (TextView) findViewById(R.id.textView34);
             num[2] = (TextView) findViewById(R.id.textView36);
             num[3] = (TextView) findViewById(R.id.textView38);
@@ -522,63 +509,25 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
             num[16] = (TextView) findViewById(R.id.textView64);
             num[17] = (TextView) findViewById(R.id.textView66);
             num[18] = (TextView) findViewById(R.id.textView68);
-            num[19] = (TextView) findViewById(R.id.textView70);
-
-
+            num[19] = (TextView) findViewById(R.id.textView70);*/
 
             try {
                 JSONObject root = new JSONObject(s);
                 JSONArray menu = root.getJSONArray("results");
+
+
                 for (int i =0; i<rar.length; i++) {
                     JSONObject ff = menu.getJSONObject(i);
                     NAME = ff.getString("NAME");
-                    rar[i].setText(NAME);
+                    rar[i] = NAME;
                     /*RAT = ff.getString("RATING");
                     num[i].setText(RAT);*/
                 }
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
                 err = "Exception: "+e.getMessage();
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             for (int i = 0; i<num.length ; i++) {
                 Random nums = new Random();
@@ -589,22 +538,61 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                 df.setMaximumFractionDigits(2);
                 //System.out.println(df.format(decimalNumber));
 
-                num[i].setText(df.format(tempss));
+                //num[i] = tempss;
             }
 
+            TextView lbl_name = (TextView) findViewById(R.id.name);
+            CharSequence name = lbl_name.getText();
+            names = name.toString();
 
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
+            LayoutInflater inflater = getLayoutInflater();
+            View convertView = (View) inflater.inflate(R.layout.list_item2, null);
+            holder = new ViewHolder();
+            holder.Name = (TextView) convertView.findViewById(R.id.title);
+            //String f = holder.Name.getText().toString();
+            convertView.setTag(holder);
+            alertDialog.setView(convertView);
+            alertDialog.setTitle(names+"'s Menu");
+            alertDialog.setCancelable(true);
+            alertDialog.setPositiveButton(
+                    "Back",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+            ListView lv = (ListView) convertView.findViewById(R.id.listView);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SinglePlaceActivity.this,android.R.layout.simple_list_item_1,rar);
+            lv.setAdapter(adapter);
+            alertDialog.show();
 
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
+                    alertDialog.setTitle("Item Information");
+                    alertDialog.setMessage("Rating:\n\n\n Description:");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setPositiveButton(
+                            "Back",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
 
-
-
-
-
-
-
+                }
+            });
 
         }
+        class ViewHolder {
+            TextView Name;
 
+        }
     }
 }
 

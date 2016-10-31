@@ -165,7 +165,7 @@ public class RestaurantList extends Activity {
             return true;
         }
         if (id == R.id.Logout) {
-            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            startActivity(new Intent(RestaurantList.this, LoginPage.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -191,10 +191,10 @@ public class RestaurantList extends Activity {
 
             try {
                 // Listing places - only cafes, restaurants
-                String types = "cafe|restaurant";
+                String types = "restaurant";
 
                 // Radius in meters
-                double radius = 8046; // Finds restaurants within a 2-mile radius
+                double radius = 8614; // Finds restaurants within a 2-mile radius
 
                 // get nearest places
                 nearPlaces = googlePlaces.search(gps.getLatitude(),
@@ -245,13 +245,8 @@ public class RestaurantList extends Activity {
                                     R.id.reference, R.id.name });
 
                             // Adding data into listview
-                            if (KEY_REFERENCE == "ChIJzzJjnVL4JIgR-poJ7u8dJI4"){
 
-                                lv = null;
-                            }
-                            else{
-                                lv.setAdapter(adapter);
-                            }
+                            lv.setAdapter(adapter);
 
                         }
                     }
