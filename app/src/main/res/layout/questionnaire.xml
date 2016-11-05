@@ -90,7 +90,7 @@
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ratingBar"
+                android:id="@+id/ratingBar1"
                 android:layout_below="@+id/textView3"
                 android:layout_alignLeft="@+id/textView3"
                 android:layout_alignStart="@+id/textView3" />
@@ -101,9 +101,9 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Sweet:"
                 android:id="@+id/textView4"
-                android:layout_below="@+id/ratingBar"
-                android:layout_alignLeft="@+id/ratingBar"
-                android:layout_alignStart="@+id/ratingBar" />
+                android:layout_below="@+id/ratingBar1"
+                android:layout_alignLeft="@+id/ratingBar1"
+                android:layout_alignStart="@+id/ratingBar1" />
 
             <RatingBar
                 android:layout_width="wrap_content"
@@ -432,12 +432,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView24"
                 android:layout_weight="0.05" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Done"
-                android:id="@+id/DoneButton" />
 
         </LinearLayout>
     </ScrollView>

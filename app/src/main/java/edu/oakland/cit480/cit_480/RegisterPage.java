@@ -45,7 +45,16 @@ public class RegisterPage extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
+        MenuItem history = menu.findItem(R.id.History);
+        history.setVisible(false);
+
+        MenuItem mainmenu = menu.findItem(R.id.MainMenu);
+        mainmenu.setVisible(false);
+
+        MenuItem logout = menu.findItem(R.id.Logout);
+        logout.setVisible(false);
         return true;
     }
     @Override
@@ -135,7 +144,7 @@ public class RegisterPage extends Activity {
 
 
                     Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(ctx, MainMenu.class);
+                    Intent i = new Intent(ctx, Questionnaire.class);
                     save("USER_NAME", USERNAME);
                     startActivity(i);
                     break;

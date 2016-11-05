@@ -4,20 +4,20 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.opengl.GLU;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RatingBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,32 +25,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
-public class Questionnaire extends Activity implements View.OnClickListener{
+public class Questionnaire extends Activity implements View.OnClickListener {
     float rat[];
-    Button doneButton;
     Button submitButton;
-    RatingBar ratingBar;
-    RatingBar ratingBar2;
     TextView rating;
-    RatingBar ratingBar4;
-    RatingBar ratingBar5;
-    RatingBar ratingBar6;
-    RatingBar ratingBar7;
-    RatingBar ratingBar8;
-    RatingBar ratingBar9;
-    RatingBar ratingBar10;
-    RatingBar ratingBar11;
-    RatingBar ratingBar12;
-    RatingBar ratingBar13;
-    RatingBar ratingBar14;
-    RatingBar ratingBar15;
-    RatingBar ratingBar16;
-    RatingBar ratingBar17;
-    RatingBar ratingBar18;
-    RatingBar ratingBar19;
-    RatingBar ratingBar20;
-    RatingBar ratingBar3;
+    RatingBar[] ratingBar = new RatingBar[20];
     TextView Salty;
     TextView Grilled;
     TextView Boiled;
@@ -65,77 +44,65 @@ public class Questionnaire extends Activity implements View.OnClickListener{
     TextView Creamy;
     TextView Crisp;
     TextView Crunchy;
-    TextView leafy;
+    TextView Leafy;
     TextView Tender;
     TextView Cheesy;
     TextView Nutritious;
     TextView Herbed;
     TextView Bold;
     TextView AI;
-    CheckBox Eggs;
-    CheckBox Milk;
-    CheckBox Fish;
-    CheckBox TreeNuts;
-    CheckBox Peanuts;
-    CheckBox Shellfish;
-    CheckBox Soy;
-    CheckBox Wheat;
-    CheckBox Glutten;
-    CheckBox Sesame;
+    CheckBox[] alCheckBox = new CheckBox[10];
     String[] tag;
     String[] Alergy;
-
-
+    String tempusr = "";
+    String s;
     Context ctx = this;
+    Boolean fetch, fetchal = false;
+    String[] TAGNAME = new String[200];
+    String[] ALLERGENS = new String[20];
+    String[] RATING = new String[200];
+    String USERID;
+    Toast toast1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questionnaire);
-
-        doneButton = (Button) findViewById(R.id.DoneButton);
-        doneButton.setOnClickListener(this);
         submitButton = (Button) findViewById(R.id.SubmitButton);
         rat = new float[20];
         tag = new String[20];
         Alergy = new String[10];
-
-
         Salty = (TextView) findViewById(R.id.textView3);
-        ratingBar = (RatingBar)findViewById(R.id.ratingBar);
-        ratingBar2 = (RatingBar)findViewById(R.id.ratingBar2);
-        rating = (TextView)findViewById(R.id.textView24);
-        ratingBar4 = (RatingBar)findViewById(R.id.ratingBar4);
-        ratingBar5 = (RatingBar)findViewById(R.id.ratingBar5);
-        ratingBar6 = (RatingBar)findViewById(R.id.ratingBar6);
-        ratingBar7 = (RatingBar)findViewById(R.id.ratingBar7);
-        ratingBar8 = (RatingBar)findViewById(R.id.ratingBar8);
-        ratingBar9 = (RatingBar)findViewById(R.id.ratingBar9);
-        ratingBar10 = (RatingBar)findViewById(R.id.ratingBar10);
-        ratingBar11 = (RatingBar)findViewById(R.id.ratingBar11);
-        ratingBar12 = (RatingBar)findViewById(R.id.ratingBar12);
-        ratingBar13 = (RatingBar)findViewById(R.id.ratingBar13);
-        ratingBar14 = (RatingBar)findViewById(R.id.ratingBar14);
-        ratingBar15 = (RatingBar)findViewById(R.id.ratingBar15);
-        ratingBar16 = (RatingBar)findViewById(R.id.ratingBar16);
-        ratingBar17 = (RatingBar)findViewById(R.id.ratingBar17);
-        ratingBar18 = (RatingBar)findViewById(R.id.ratingBar18);
-        ratingBar19 = (RatingBar)findViewById(R.id.ratingBar19);
-        ratingBar20 = (RatingBar)findViewById(R.id.ratingBar20);
-        ratingBar3 = (RatingBar)findViewById(R.id.ratingBar3);
-        Eggs = (CheckBox) findViewById(R.id.checkBox5);
-        Milk = (CheckBox) findViewById(R.id.checkBox6);
-        Fish = (CheckBox) findViewById(R.id.checkBox7);
-        TreeNuts = (CheckBox) findViewById(R.id.checkBox8);
-        Peanuts = (CheckBox) findViewById(R.id.checkBox9);
-        Shellfish = (CheckBox) findViewById(R.id.checkBox10);
-        Soy = (CheckBox) findViewById(R.id.checkBox11);
-        Wheat = (CheckBox) findViewById(R.id.checkBox12);
-        Glutten = (CheckBox) findViewById(R.id.checkBox13);
-        Sesame = (CheckBox) findViewById(R.id.checkBox14);
-
-
-
+        ratingBar[0] = (RatingBar) findViewById(R.id.ratingBar1);
+        ratingBar[1] = (RatingBar) findViewById(R.id.ratingBar2);
+        ratingBar[2] = (RatingBar) findViewById(R.id.ratingBar3);
+        ratingBar[3] = (RatingBar) findViewById(R.id.ratingBar4);
+        ratingBar[4] = (RatingBar) findViewById(R.id.ratingBar5);
+        ratingBar[5] = (RatingBar) findViewById(R.id.ratingBar6);
+        ratingBar[6] = (RatingBar) findViewById(R.id.ratingBar7);
+        ratingBar[7] = (RatingBar) findViewById(R.id.ratingBar8);
+        ratingBar[8] = (RatingBar) findViewById(R.id.ratingBar9);
+        ratingBar[9] = (RatingBar) findViewById(R.id.ratingBar10);
+        ratingBar[10] = (RatingBar) findViewById(R.id.ratingBar11);
+        ratingBar[11] = (RatingBar) findViewById(R.id.ratingBar12);
+        ratingBar[12] = (RatingBar) findViewById(R.id.ratingBar13);
+        ratingBar[13] = (RatingBar) findViewById(R.id.ratingBar14);
+        ratingBar[14] = (RatingBar) findViewById(R.id.ratingBar15);
+        ratingBar[15] = (RatingBar) findViewById(R.id.ratingBar16);
+        ratingBar[16] = (RatingBar) findViewById(R.id.ratingBar17);
+        ratingBar[17] = (RatingBar) findViewById(R.id.ratingBar18);
+        ratingBar[18] = (RatingBar) findViewById(R.id.ratingBar19);
+        ratingBar[19] = (RatingBar) findViewById(R.id.ratingBar20);
+        alCheckBox[0] = (CheckBox) findViewById(R.id.checkBox5);
+        alCheckBox[1] = (CheckBox) findViewById(R.id.checkBox6);
+        alCheckBox[2] = (CheckBox) findViewById(R.id.checkBox7);
+        alCheckBox[3] = (CheckBox) findViewById(R.id.checkBox8);
+        alCheckBox[4] = (CheckBox) findViewById(R.id.checkBox9);
+        alCheckBox[5] = (CheckBox) findViewById(R.id.checkBox10);
+        alCheckBox[6] = (CheckBox) findViewById(R.id.checkBox11);
+        alCheckBox[7] = (CheckBox) findViewById(R.id.checkBox12);
+        alCheckBox[8] = (CheckBox) findViewById(R.id.checkBox13);
+        alCheckBox[9] = (CheckBox) findViewById(R.id.checkBox14);
         submitButton.setOnClickListener(this);
         Nutritious = (TextView) findViewById(R.id.textView20);
         Herbed = (TextView) findViewById(R.id.textView21);
@@ -147,7 +114,7 @@ public class Questionnaire extends Activity implements View.OnClickListener{
         Creamy = (TextView) findViewById(R.id.textView9);
         Crisp = (TextView) findViewById(R.id.textView15);
         Crunchy = (TextView) findViewById(R.id.textView16);
-        leafy = (TextView) findViewById(R.id.textView17);
+        Leafy = (TextView) findViewById(R.id.textView17);
         Tender = (TextView) findViewById(R.id.textView18);
         Cheesy = (TextView) findViewById(R.id.textView19);
         Bold = (TextView) findViewById(R.id.textView22);
@@ -155,41 +122,21 @@ public class Questionnaire extends Activity implements View.OnClickListener{
         Boiled = (TextView) findViewById(R.id.textView11);
         Baked = (TextView) findViewById(R.id.textView12);
         Steamed = (TextView) findViewById(R.id.textView13);
-        Deepfried=(TextView) findViewById(R.id.textView14);
+        Deepfried = (TextView) findViewById(R.id.textView14);
         AI = (TextView) findViewById(R.id.textView23);
-        ratingBar18.setVisibility(View.GONE);
-        ratingBar19.setVisibility(View.GONE);
-        ratingBar20.setVisibility(View.GONE);
         Nutritious.setVisibility(View.GONE);
         Herbed.setVisibility(View.GONE);
         Bold.setVisibility(View.GONE);
-        ratingBar13.setVisibility(View.GONE);
-        ratingBar14.setVisibility(View.GONE);
-        ratingBar15.setVisibility(View.GONE);
-        ratingBar16.setVisibility(View.GONE);
-        ratingBar17.setVisibility(View.GONE);
         Crisp.setVisibility(View.GONE);
         Crunchy.setVisibility(View.GONE);
-        leafy.setVisibility(View.GONE);
+        Leafy.setVisibility(View.GONE);
         Tender.setVisibility(View.GONE);
         Cheesy.setVisibility(View.GONE);
-        ratingBar8.setVisibility(View.GONE);
-        ratingBar9.setVisibility(View.GONE);
-        ratingBar10.setVisibility(View.GONE);
-        ratingBar11.setVisibility(View.GONE);
-        ratingBar12.setVisibility(View.GONE);
         Grilled.setVisibility(View.GONE);
         Boiled.setVisibility(View.GONE);
         Baked.setVisibility(View.GONE);
         Steamed.setVisibility(View.GONE);
         Deepfried.setVisibility(View.GONE);
-        ratingBar.setVisibility(View.GONE);
-        ratingBar2.setVisibility(View.GONE);
-        ratingBar3.setVisibility(View.GONE);
-        ratingBar4.setVisibility(View.GONE);
-        ratingBar5.setVisibility(View.GONE);
-        ratingBar6.setVisibility(View.GONE);
-        ratingBar7.setVisibility(View.GONE);
         Sour.setVisibility(View.GONE);
         Creamy.setVisibility(View.GONE);
         Spicy.setVisibility(View.GONE);
@@ -197,90 +144,16 @@ public class Questionnaire extends Activity implements View.OnClickListener{
         Umami.setVisibility(View.GONE);
         Bitter.setVisibility(View.GONE);
         Salty.setVisibility(View.GONE);
-        Eggs.setVisibility(View.GONE);
-        Milk.setVisibility(View.GONE);
-        Soy.setVisibility(View.GONE);
-        Sesame.setVisibility(View.GONE);
-        Fish.setVisibility(View.GONE);
-        TreeNuts.setVisibility(View.GONE);
-        Peanuts.setVisibility(View.GONE);
-        Shellfish.setVisibility(View.GONE);
-        Glutten.setVisibility(View.GONE);
-        Wheat.setVisibility(View.GONE);
+        for (CheckBox anAlCheckBox : alCheckBox) {
+            anAlCheckBox.setVisibility(View.GONE);
+        }
         AI.setVisibility(View.GONE);
-        for (int i = 0; i<Alergy.length; i++) {
+        for (RatingBar aRatingBar : ratingBar) {
+            aRatingBar.setVisibility(View.GONE);
+        }
+        for (int i = 0; i < Alergy.length; i++) {
             Alergy[i] = "Null";
         }
-
-
-
-
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        MenuItem mainMenu = menu.findItem(R.id.MainMenu);
-        mainMenu.setVisible(false);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id==android.R.id.home) {
-            finish();
-        }
-        if (id == R.id.History) {
-            startActivity(new Intent(getApplicationContext(), History.class));
-            return true;
-        }
-        if (id == R.id.Logout) {
-            //clearUserPrefs();
-            startActivity(new Intent(getApplicationContext(), LoginPage.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    public void clearUserPrefs() {
-        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.clear();
-        editor.commit();
-    }
-    private void doneButtonClick() {
-
-        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
-        //myIntent.putExtra("userInput", userInput.getText().toString());
-        startActivity(myIntent);
-    }
-
-    private void submitButtonClick() {
-        rating.setText("");
-        rat[1] = ratingBar2.getRating();
-        rat[2] = ratingBar3.getRating();
-        rat[3] = ratingBar4.getRating();
-        rat[4] = ratingBar5.getRating();
-        rat[5] = ratingBar6.getRating();
-        rat[6] = ratingBar7.getRating();
-        rat[7] = ratingBar8.getRating();
-        rat[8]= ratingBar9.getRating();
-        rat[9] = ratingBar10.getRating();
-        rat[10] = ratingBar11.getRating();
-        rat[11] = ratingBar12.getRating();
-        rat[12] = ratingBar13.getRating();
-        rat[13] = ratingBar14.getRating();
-        rat[14] = ratingBar15.getRating();
-        rat[15] = ratingBar16.getRating();
-        rat[16] = ratingBar17.getRating();
-        rat[17] = ratingBar18.getRating();
-        rat[18] = ratingBar19.getRating();
-        rat[19] = ratingBar20.getRating();
-        rat[0] = ratingBar.getRating();
         tag[0] = "Salty";
         tag[1] = "Sweet";
         tag[2] = "Umami";
@@ -295,74 +168,124 @@ public class Questionnaire extends Activity implements View.OnClickListener{
         tag[11] = "Deep-fried";
         tag[12] = "Crisp";
         tag[13] = "Crunchy";
-        tag[14] = "leafy";
+        tag[14] = "Leafy";
         tag[15] = "Tender";
         tag[16] = "Cheesy";
         tag[17] = "Nutritious";
         tag[18] = "Herbed";
         tag[19] = "Bold";
+        Alergy[0] = "Eggs";
+        Alergy[1] = "Fish";
+        Alergy[2] = "Milk";
+        Alergy[3] = "Tree Nuts";
+        Alergy[4] = "Peanuts";
+        Alergy[5] = "Shellfish";
+        Alergy[6] = "Soy";
+        Alergy[7] = "Wheat";
+        Alergy[8] = "Gluten";
+        Alergy[9] = "Sesame";
         SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
-        String tempusr = sp.getString("USER_NAME", "");
+        setTempusr(sp.getString("USER_ID", ""));
+        getRatings();
+    }
 
+    public String getTempusr() {
+        return tempusr;
+    }
 
+    public void setTempusr(String tempusr) {
+        this.tempusr = tempusr;
+    }
 
-        for(int i = 0; i<rat.length; i++){
-            // ((TextView)findViewById(R.id.textView24)).setText(((TextView)findViewById(R.id.textView24)).getText() + String.valueOf(rat[i]));
-            rating.append(String.valueOf(rat[i])+ " ");
-            //String Temprat = Float.toString(rat[i]);
+    private void getRatings() {
+        BackGround b = new BackGround();
+        b.execute(getTempusr(), "", "", "fetch");
+    }
+
+    private void getAllergens() {
+        BackGround b = new BackGround();
+        b.execute(getTempusr(), "", "", "fetchal");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+        if (id == R.id.History) {
+            startActivity(new Intent(getApplicationContext(), History.class));
+            return true;
+        }
+        if (id == R.id.MainMenu) {
+            startActivity(new Intent(getApplicationContext(), MainMenu.class));
+            return true;
+        }
+        if (id == R.id.Logout) {
+            clearUserPrefs();
+            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void doneButtonClick() {
+        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+        startActivity(myIntent);
+    }
+
+    private void submitButtonClick() {
+        for (int i = 0; i < ratingBar.length; i++) {
+            rat[i] = ratingBar[i].getRating();
+        }
+        for (int i = 0; i < rat.length; i++) {
             if (rat[i] != 0) {
-                String Temprat = Float.toString(rat[i]);
+                String Temprat = Float.toString(rat[i] / 5);
                 BackGround b = new BackGround();
-                b.execute(tempusr, tag[i], Temprat);
-            }
-
-        }
-
-        for (int i = 0; i<Alergy.length; i++) {
-            if (Alergy[i] != "Null") {
-                BackGround b = new BackGround();
-                b.execute(tempusr, Alergy[i], "Null");
+                b.execute(getTempusr(), tag[i], Temprat, "rat");
             }
         }
-
-
-
-
+        for (int i = 0; i < alCheckBox.length; i++) {
+            if (alCheckBox[i].isChecked()) {
+                BackGround b = new BackGround();
+                b.execute(getTempusr(), Alergy[i], "Null", "al");
+            }
+        }
     }
 
     public void onClick(View v) {
-
-        switch (v.getId())
-        {
-            case R.id.DoneButton:
-                doneButtonClick();
-                break;
+        switch (v.getId()) {
             case R.id.SubmitButton:
                 submitButtonClick();
+                doneButtonClick();
                 break;
         }
-
     }
 
     public void OnCheckBoxClick(View view) {
         boolean checked = ((CheckBox) view).isChecked();
-
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.checkBox:
                 if (checked) {
-                    ratingBar18.setVisibility(View.VISIBLE);
-                    ratingBar19.setVisibility(View.VISIBLE);
-                    ratingBar20.setVisibility(View.VISIBLE);
+                    for (int i = 17; i < 20; i++) {
+                        ratingBar[i].setVisibility(View.VISIBLE);
+                    }
                     Nutritious.setVisibility(View.VISIBLE);
                     Herbed.setVisibility(View.VISIBLE);
                     Bold.setVisibility(View.VISIBLE);
 
-                }
-
-                else {
-                    ratingBar18.setVisibility(View.GONE);
-                    ratingBar19.setVisibility(View.GONE);
-                    ratingBar20.setVisibility(View.GONE);
+                } else {
+                    for (int i = 17; i < 20; i++) {
+                        ratingBar[i].setVisibility(View.GONE);
+                    }
                     Nutritious.setVisibility(View.GONE);
                     Herbed.setVisibility(View.GONE);
                     Bold.setVisibility(View.GONE);
@@ -370,51 +293,39 @@ public class Questionnaire extends Activity implements View.OnClickListener{
                 break;
             case R.id.checkBox2:
                 if (checked) {
-                    ratingBar13.setVisibility(View.VISIBLE);
-                    ratingBar14.setVisibility(View.VISIBLE);
-                    ratingBar15.setVisibility(View.VISIBLE);
-                    ratingBar16.setVisibility(View.VISIBLE);
-                    ratingBar17.setVisibility(View.VISIBLE);
+                    for (int i = 12; i < 17; i++) {
+                        ratingBar[i].setVisibility(View.VISIBLE);
+                    }
                     Crisp.setVisibility(View.VISIBLE);
                     Crunchy.setVisibility(View.VISIBLE);
-                    leafy.setVisibility(View.VISIBLE);
+                    Leafy.setVisibility(View.VISIBLE);
                     Tender.setVisibility(View.VISIBLE);
                     Cheesy.setVisibility(View.VISIBLE);
-                }
-
-                else {
-                    ratingBar13.setVisibility(View.GONE);
-                    ratingBar14.setVisibility(View.GONE);
-                    ratingBar15.setVisibility(View.GONE);
-                    ratingBar16.setVisibility(View.GONE);
-                    ratingBar17.setVisibility(View.GONE);
+                } else {
+                    for (int i = 12; i < 17; i++) {
+                        ratingBar[i].setVisibility(View.GONE);
+                    }
                     Crisp.setVisibility(View.GONE);
                     Crunchy.setVisibility(View.GONE);
-                    leafy.setVisibility(View.GONE);
+                    Leafy.setVisibility(View.GONE);
                     Tender.setVisibility(View.GONE);
                     Cheesy.setVisibility(View.GONE);
                 }
                 break;
             case R.id.checkBox3:
                 if (checked) {
-                    ratingBar8.setVisibility(View.VISIBLE);
-                    ratingBar9.setVisibility(View.VISIBLE);
-                    ratingBar10.setVisibility(View.VISIBLE);
-                    ratingBar11.setVisibility(View.VISIBLE);
-                    ratingBar12.setVisibility(View.VISIBLE);
+                    for (int i = 7; i < 12; i++) {
+                        ratingBar[i].setVisibility(View.VISIBLE);
+                    }
                     Grilled.setVisibility(View.VISIBLE);
                     Boiled.setVisibility(View.VISIBLE);
                     Baked.setVisibility(View.VISIBLE);
                     Steamed.setVisibility(View.VISIBLE);
                     Deepfried.setVisibility(View.VISIBLE);
-                }
-
-                else {
-                    ratingBar8.setVisibility(View.GONE);
-                    ratingBar9.setVisibility(View.GONE);
-                    ratingBar10.setVisibility(View.GONE);
-                    ratingBar11.setVisibility(View.GONE);
-                    ratingBar12.setVisibility(View.GONE);
+                } else {
+                    for (int i = 7; i < 12; i++) {
+                        ratingBar[i].setVisibility(View.GONE);
+                    }
                     Grilled.setVisibility(View.GONE);
                     Boiled.setVisibility(View.GONE);
                     Baked.setVisibility(View.GONE);
@@ -424,13 +335,9 @@ public class Questionnaire extends Activity implements View.OnClickListener{
                 break;
             case R.id.checkBox4:
                 if (checked) {
-                    ratingBar.setVisibility(View.VISIBLE);
-                    ratingBar2.setVisibility(View.VISIBLE);
-                    ratingBar3.setVisibility(View.VISIBLE);
-                    ratingBar4.setVisibility(View.VISIBLE);
-                    ratingBar5.setVisibility(View.VISIBLE);
-                    ratingBar6.setVisibility(View.VISIBLE);
-                    ratingBar7.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < 7; i++) {
+                        ratingBar[i].setVisibility(View.VISIBLE);
+                    }
                     Sour.setVisibility(View.VISIBLE);
                     Creamy.setVisibility(View.VISIBLE);
                     Spicy.setVisibility(View.VISIBLE);
@@ -438,16 +345,10 @@ public class Questionnaire extends Activity implements View.OnClickListener{
                     Umami.setVisibility(View.VISIBLE);
                     Bitter.setVisibility(View.VISIBLE);
                     Salty.setVisibility(View.VISIBLE);
-                }
-
-                else {
-                    ratingBar.setVisibility(View.GONE);
-                    ratingBar2.setVisibility(View.GONE);
-                    ratingBar3.setVisibility(View.GONE);
-                    ratingBar4.setVisibility(View.GONE);
-                    ratingBar5.setVisibility(View.GONE);
-                    ratingBar6.setVisibility(View.GONE);
-                    ratingBar7.setVisibility(View.GONE);
+                } else {
+                    for (int i = 0; i < 7; i++) {
+                        ratingBar[i].setVisibility(View.GONE);
+                    }
                     Sour.setVisibility(View.GONE);
                     Creamy.setVisibility(View.GONE);
                     Spicy.setVisibility(View.GONE);
@@ -459,138 +360,65 @@ public class Questionnaire extends Activity implements View.OnClickListener{
                 break;
             case R.id.checkBox15:
                 if (checked) {
-                    Eggs.setVisibility(View.VISIBLE);
-                    Milk.setVisibility(View.VISIBLE);
-                    Soy.setVisibility(View.VISIBLE);
-                    Sesame.setVisibility(View.VISIBLE);
-                    Fish.setVisibility(View.VISIBLE);
-                    TreeNuts.setVisibility(View.VISIBLE);
-                    Peanuts.setVisibility(View.VISIBLE);
-                    Shellfish.setVisibility(View.VISIBLE);
-                    Glutten.setVisibility(View.VISIBLE);
-                    Wheat.setVisibility(View.VISIBLE);
+                    for (CheckBox anAlCheckBox : alCheckBox) {
+                        anAlCheckBox.setVisibility(View.VISIBLE);
+                    }
                     AI.setVisibility(View.VISIBLE);
-                }
-                else {
-                    Eggs.setVisibility(View.GONE);
-                    Milk.setVisibility(View.GONE);
-                    Soy.setVisibility(View.GONE);
-                    Sesame.setVisibility(View.GONE);
-                    Fish.setVisibility(View.GONE);
-                    TreeNuts.setVisibility(View.GONE);
-                    Peanuts.setVisibility(View.GONE);
-                    Shellfish.setVisibility(View.GONE);
-                    Glutten.setVisibility(View.GONE);
-                    Wheat.setVisibility(View.GONE);
+                } else {
+                    for (CheckBox anAlCheckBox : alCheckBox) {
+                        anAlCheckBox.setVisibility(View.GONE);
+                    }
                     AI.setVisibility(View.GONE);
                 }
                 break;
-            case R.id.checkBox5:
-                if (checked) {
-                    Alergy[0] = "Eggs";
-                }
-                else {
-                    Alergy[0] = "Null";
-                }
-                break;
-            case R.id.checkBox6:
-                if (checked) {
-                    Alergy[1] = "Fish";
-                }
-                else {
-                    Alergy[1] = "Null";
-                }
-                break;
-            case R.id.checkBox7:
-                if (checked) {
-                    Alergy[2] = "Milk";
-                }
-                else {
-                    Alergy[2] = "Null";
-                }
-                break;
-            case R.id.checkBox8:
-                if (checked) {
-                    Alergy[3] = "Tree Nuts";
-                }
-                else {
-                    Alergy[3] = "Null";
-                }
-                break;
-            case R.id.checkBox9:
-                if (checked) {
-                    Alergy[4] = "Peanuts";
-                }
-                else {
-                    Alergy[4] = "Null";
-                }
-                break;
-            case R.id.checkBox10:
-                if (checked) {
-                    Alergy[5] = "Shellfish";
-                }
-                else {
-                    Alergy[5] = "Null";
-                }
-                break;
-            case R.id.checkBox11:
-                if (checked) {
-                    Alergy[6] = "Soy";
-                }
-                else {
-                    Alergy[6] = "Null";
-                }
-                break;
-            case R.id.checkBox12:
-                if (checked) {
-                    Alergy[7] = "Wheat";
-                }
-                else {
-                    Alergy[7] = "Null";
-                }
-                break;
-            case R.id.checkBox13:
-                if (checked) {
-                    Alergy[8] = "Glutten";
-                }
-                else {
-                    Alergy[8] = "Null";
-                }
-                break;
-            case R.id.checkBox14:
-                if (checked) {
-                    Alergy[9] = "Sesame";
-                }
-                else {
-                    Alergy[9] = "Null";
-                }
-                break;
-
         }
     }
-    class BackGround extends AsyncTask<String,String, String> {
+
+    public String getS() {
+        return s;
+    }
+
+    public void setS(String s) {
+        this.s = s;
+    }
+
+    class BackGround extends AsyncTask<String, String, String> {
 
         @Override
-        protected String doInBackground(String ... params) {
-
-            String user = params[0] ;
+        protected String doInBackground(String... params) {
+            String user = params[0];
             String name = params[1];
             String rat = params[2];
-            String data="";
+            String op = params[3];
+            String data = "";
             int tmp;
-            URL url;
-            String urlParams;
-
+            URL url = null;
+            String urlParams = "user=" + user + "&name=" + name + "&rat=" + rat;
             try {
-                if (rat == "Null") {
+                if (op == "al") {
                     url = new URL("http://www.secs.oakland.edu/~djrasmus/480/Alergy.php");
                     urlParams = "USER=" + user + "&NAME=" + name;
+                    setS("Saving data");
                 }
-                else {
+                if (op == "rat") {
                     url = new URL("http://www.secs.oakland.edu/~djrasmus/480/quest.php");
                     urlParams = "user=" + user + "&name=" + name + "&rat=" + rat;
+                    setS("Saving data");
                 }
-
+                if (op == "fetch") {
+                    url = new URL("http://www.secs.oakland.edu/~djrasmus/480/getRatings.php");
+                    urlParams = "USERID=" + user;
+                    setS("Fetching Info...");
+                    fetch = true;
+                }
+                if (op == "fetchal") {
+                    url = new URL("http://www.secs.oakland.edu/~djrasmus/480/getAllergens.php");
+                    urlParams = "USERID=" + user;
+                    setS("Fetching Info...");
+                    fetchal = true;
+                } else {
+                    //Here's a smiley face instead of some actual code :-)
+                }
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
@@ -599,29 +427,79 @@ public class Questionnaire extends Activity implements View.OnClickListener{
                 os.flush();
                 os.close();
                 InputStream is = httpURLConnection.getInputStream();
-                while((tmp=is.read())!=-1){
-                    data+= (char)tmp;
+                while ((tmp = is.read()) != -1) {
+                    data += (char) tmp;
                 }
                 is.close();
                 httpURLConnection.disconnect();
-
                 return data;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                return "Exception: "+e.getMessage();
+                return "Exception: " + e.getMessage();
             } catch (IOException e) {
                 e.printStackTrace();
-                return "Exception: "+e.getMessage();
+                return "Exception: " + e.getMessage();
             }
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if(s.equals("")){
-                s="Data saved successfully.";
+            toast1 = Toast.makeText(ctx, getS(), Toast.LENGTH_SHORT);
+            toast1.show();
+            if (fetch) {
+                try {
+                    JSONObject root = new JSONObject(s);
+                    JSONArray menu = root.getJSONArray("results");
+                    for (int i = 0; i < tag.length; i++) {
+                        for (int j = 0; j < menu.length(); j++) {
+                            JSONObject ff = menu.getJSONObject(j);
+                            TAGNAME[j] = ff.getString("TAG NAME");
+                            USERID = ff.getString("USER ID");
+                            RATING[j] = ff.getString("RATING");
+
+                            if (TAGNAME[j].equals(tag[i])) {
+                                ratingBar[i].setRating(5 * Float.parseFloat((RATING[j])));
+                            }
+                        }
+                    }
+                    fetch = false;
+                    getAllergens();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    String err = "Exception: " + e.getMessage();
+                    System.out.print(err);
+                }
             }
-            Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
+            if (fetchal) {
+                try {
+                    JSONObject root = new JSONObject(s);
+                    JSONArray menu = root.getJSONArray("results");
+                    for (int i = 0; i < Alergy.length; i++) {
+                        for (int j = 0; j < menu.length(); j++) {
+                            JSONObject ff = menu.getJSONObject(j);
+                            ALLERGENS[j] = ff.getString("NAME");
+                            USERID = ff.getString("USER ID");
+                            if (ALLERGENS[j].equals(Alergy[i])) {
+                                alCheckBox[i].setChecked(true);
+                            }
+                        }
+                    }
+                    fetchal = false;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    String err = "Exception: " + e.getMessage();
+                    System.out.print(err);
+                }
+            }
         }
     }
+
+    public void clearUserPrefs() {
+        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+    }
 }
+

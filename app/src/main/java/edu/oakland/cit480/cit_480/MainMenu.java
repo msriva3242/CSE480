@@ -49,7 +49,8 @@ public class MainMenu extends Activity implements View.OnClickListener{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getActionBar();
-
+        MenuItem mainmenu = menu.findItem(R.id.MainMenu);
+        mainmenu.setVisible(false);
         return true;
     }
     @Override
