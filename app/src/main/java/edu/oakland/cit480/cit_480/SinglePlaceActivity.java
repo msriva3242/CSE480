@@ -342,8 +342,6 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
     }
 
-
-
     public void onClick(View v) {
 
         switch (v.getId())
