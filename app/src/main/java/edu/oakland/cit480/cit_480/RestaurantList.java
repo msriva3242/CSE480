@@ -19,12 +19,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class RestaurantList extends Activity {
+
+    ImageView showmap;
 
     // flag for Internet connection status
     Boolean isInternetPresent = false;
@@ -100,14 +103,14 @@ public class RestaurantList extends Activity {
         lv = (ListView) findViewById(R.id.list);
 
         // button to show on map
-        btnShowOnMap = (Button) findViewById(R.id.btn_show_map);
+        showmap = (ImageView) findViewById(R.id.imageView6);
 
         // calling background Async task to load Google Places
         // After getting places from Google all the data is shown in listview
         new LoadPlaces().execute();
 
         //Button click event for map
-        btnShowOnMap.setOnClickListener(new View.OnClickListener() {
+        showmap.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -203,7 +206,7 @@ public class RestaurantList extends Activity {
                 String types = "restaurant";
 
                 // Radius in meters
-                double radius = 3218; // Finds restaurants within a 2-mile radius
+                double radius = 8614; // Finds restaurants within a 2-mile radius
 
                 // get nearest places
                 nearPlaces = googlePlaces.search(gps.getLatitude(),

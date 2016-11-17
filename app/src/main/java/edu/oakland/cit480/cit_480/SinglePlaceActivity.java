@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -50,6 +51,16 @@ import java.lang.Math.*;
 public class SinglePlaceActivity extends Activity implements View.OnClickListener{
 
     String s;
+    String tempusr = "";
+    String USERID;
+    String[] tag = new String[20];
+    String[] TAGNAME = new String[200];
+    String[] RATING = new String[200];
+    String[] rar;
+    double[] usr = new double[20];
+    double[] frar = new double[20];
+    String[] mm = new String[5];
+    int[][] foodstuffs;
 
     ArrayList<String> arr = new ArrayList<String>();
 
@@ -63,6 +74,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
     // Connection detector class
     ConnectionDetector cd;
+    int wait = 0;
 
     // Alert Dialog Manager
     AlertDialogManager alert = new AlertDialogManager();
@@ -77,20 +89,31 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
     ProgressDialog pDialog;
     ProgressBar progressbar;
 
+
+
+
     // KEY Strings
     public static String KEY_REFERENCE = "reference"; // id of the place
+    public static String KEY_NAME = "name";
 
-    String rar[] = new String[30];
+
 
     float num[] = new float[30];
+    double[] sim;
 
     DecimalFormat test[] = new DecimalFormat[30];
 
     float man[] = new float[20];
 
+    String[] biggs;
+
     String names;
 
     Context ctx=this;
+    String sig;
+    String[] m;
+    ViewHolder holder;
+    ImageView menu, rc;
 
 
 
@@ -103,22 +126,67 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
         Intent i = getIntent();
 
+        tag[0] = "Salty";
+        tag[1] = "Sweet";
+        tag[2] = "Umami";
+        tag[3] = "bitter";
+        tag[4] = "Sour";
+        tag[5] = "Spicy";
+        tag[6] = "Creamy";
+        tag[7] = "Grilled";
+        tag[8] = "Boiled";
+        tag[9] = "Baked";
+        tag[10] = "Steamed";
+        tag[11] = "Deep-fried";
+        tag[12] = "Crisp";
+        tag[13] = "Crunchy";
+        tag[14] = "Leafy";
+        tag[15] = "Tender";
+        tag[16] = "Cheesy";
+        tag[17] = "Nutritious";
+        tag[18] = "Herbed";
+        tag[19] = "Bold";
+
         //progressbar = (ProgressBar)findViewById(R.id.progressBar2);
         //progressbar.setVisibility(View.GONE);
 
         // Place reference id
         String reference = i.getStringExtra(KEY_REFERENCE);
+        String namee = i.getStringExtra(KEY_NAME);
 
         // Calling an Async Background thread
         new LoadSinglePlaceDetails().execute(reference);
 
         context = this.getApplicationContext();
 
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(this);
+        menu = (ImageView) findViewById(R.id.imageView2);
+        menu.setOnClickListener(this);
 
-        button8 = (Button) findViewById(R.id.button8);
-        button8.setOnClickListener(this);
+        rc = (ImageView) findViewById(R.id.imageView3);
+        rc.setOnClickListener(this);
+
+        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
+        setTempusr(sp.getString("USER_ID", ""));
+        sig = "c";
+
+
+        BackGround me = new BackGround();
+        me.execute(getTempusr(), sig, "0");
+        BackGround mee = new BackGround();
+        String sig = "b";
+        mee.execute(namee, sig, "0");
+
+
+
+
+
+    }
+    public String getTempusr() {
+        return tempusr;
+    }
+
+    public void setTempusr(String tempusr) {
+        this.tempusr = tempusr;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,13 +208,12 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
             startActivity(new Intent(getApplicationContext(), History.class));
             return true;
         }
-        if (id == R.id.MainMenu) {
-            startActivity(new Intent(SinglePlaceActivity.this, MainMenu.class));
+        if (id == R.id.Logout) {
+            startActivity(new Intent(SinglePlaceActivity.this, LoginPage.class));
             return true;
         }
-        if (id == R.id.Logout) {
-            clearUserPrefs();
-            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+        if (id == R.id.MainMenu) {
+            startActivity(new Intent(SinglePlaceActivity.this, MainMenu.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -276,25 +343,56 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         names = name.toString();
         String sig = "a";
 
+
         BackGround me = new BackGround();
-        me.execute(names, sig);
+        me.execute(names, sig, "0");
 
         //progressbar.setVisibility(View.GONE);
     }
-    public void clearUserPrefs() {
-        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.clear();
-        editor.commit();
-    }
     private void button2Click() {
-        TextView lbl_name = (TextView) findViewById(R.id.name);
-        CharSequence name = lbl_name.getText();
-        names = name.toString();
-        String sig = "b";
 
-        BackGround me = new BackGround();
-        me.execute(names, sig);
+
+
+        for (int i = 0; i<rar.length; i++) {
+            for (int j = 0; j<frar.length; j++) {
+                frar[j] = foodstuffs[i][j];
+
+            }
+
+
+
+            sim[i] = cossim(usr,frar);
+            System.out.println(rar[i]);
+            System.out.println(sim[i]);
+
+
+        }
+        m = bubbleSort(rar,sim);
+        for (int i = 0; i<5; i++) {
+            mm[i] = m[i];
+        }
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.list_item2, null);
+        holder = new ViewHolder();
+        holder.Name = (TextView) convertView.findViewById(R.id.title);
+        //String f = holder.Name.getText().toString();
+        convertView.setTag(holder);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("Recommendations");
+        alertDialog.setCancelable(true);
+        alertDialog.setPositiveButton(
+                "Back",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        ListView lv = (ListView) convertView.findViewById(R.id.listView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SinglePlaceActivity.this, android.R.layout.simple_list_item_1, mm);
+        lv.setAdapter(adapter);
+        alertDialog.show();
+
 
         /*try {
             JSONObject root = new JSONObject(getMenu(names));
@@ -341,42 +439,69 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
 
     }
+    public void setFrar(int w) {
+        BackGround c = new BackGround();
+        c.execute(biggs[w], "d", Integer.toString(w));
+
+
+
+    }
+
+
+
 
     public void onClick(View v) {
 
         switch (v.getId())
         {
 
-            case R.id.button:
+            case R.id.imageView2:
                 button1Click();
                 break;
-            case R.id.button8:
+            case R.id.imageView3:
                 button2Click();
                 break;
         }
 
     }
+
     class BackGround extends AsyncTask<String, String, String> {
         String sigs;
-        double[] usr = {
-                0.5, 0.6, 0.4, 1.0, 0.9, 0.2, 0.7, 0.4, 0.6, 0.1
-        };
-        double[] sim = new double[rar.length];
+        String foodcount;
+
+
+
+
 
 
         @Override
         protected String doInBackground(String... params) {
             String name = params[0];
-            String sig = params[1];
-            sigs = sig;
+            sigs = params[1];
+            foodcount = params[2];
+            boolean urat, frat = false;
 
 
             String data="";
             int tmp;
+            URL url;
+            String urlParams;
+            System.out.println(sigs);
 
             try {
-                URL url = new URL("http://www.secs.oakland.edu/~djrasmus/480/menus3.php");
-                String urlParams = "name="+name;
+                if (sigs == "a" || sigs == "b") {
+                    url = new URL("http://www.secs.oakland.edu/~djrasmus/480/menus3.php");
+                    urlParams = "name="+name;
+                }
+                else if (sigs == "c") {
+                    url = new URL("http://www.secs.oakland.edu/~djrasmus/480/getRatings.php");
+                    urlParams = "USERID=" + name;
+                }
+                else {
+                    url = new URL("http://www.secs.oakland.edu/~djrasmus/480/getMenuRatings.php");
+                    urlParams = "USERID="+name;
+                }
+
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
@@ -432,24 +557,129 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
             num[17] = (TextView) findViewById(R.id.textView66);
             num[18] = (TextView) findViewById(R.id.textView68);
             num[19] = (TextView) findViewById(R.id.textView70);*/
+            if (sigs == "d") {
 
-            try {
-                JSONObject root = new JSONObject(s);
-                JSONArray menu = root.getJSONArray("results");
+                try {
+
+                    JSONObject root = new JSONObject(s);
+
+                    JSONArray menu = root.getJSONArray("results");
 
 
-                for (int i =0; i<rar.length; i++) {
-                    JSONObject ff = menu.getJSONObject(i);
-                    NAME = ff.getString("NAME");
-                    rar[i] = NAME;
+                    for (int i = 0; i < tag.length; i++) {
+                        boolean ex = false;
+
+                        for (int j = 0; j < menu.length(); j++) {
+                            JSONObject ff = menu.getJSONObject(j);
+                            TAGNAME[j] = ff.getString("TAG NAME");
+                            System.out.println(tag[i]);
+                            System.out.println(TAGNAME[j]);
+
+
+
+                            if (TAGNAME[j].equals(tag[i])) {
+                                int foodone = Integer.valueOf(foodcount);
+                                foodstuffs[foodone][i] = 1;
+
+                                ex = true;
+                                System.out.println(foodstuffs[foodone][i]);
+                            }
+
+
+
+                        }
+                        if (ex == false) {
+                            Random y = new Random();
+                            int fff = y.nextInt(2);
+                            int foodone = Integer.valueOf(foodcount);
+                            foodstuffs[foodone][i] = fff;
+
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    err = "Exception: " + e.getMessage();
+                    System.out.print(err);
+                }
+                wait = 1;
+            }
+            if (sigs == "c") {
+                try {
+                    JSONObject root = new JSONObject(s);
+                    JSONArray menu = root.getJSONArray("results");
+                    for (int i = 0; i < tag.length; i++) {
+                        boolean ex = false;
+                        for (int j = 0; j < menu.length(); j++) {
+                            JSONObject ff = menu.getJSONObject(j);
+                            TAGNAME[j] = ff.getString("TAG NAME");
+
+                            RATING[j] = ff.getString("RATING");
+
+
+                            if (TAGNAME[j].equals(tag[i])) {
+                                usr[i] = Double.valueOf(RATING[j]);
+                                ex = true;
+                                System.out.println("ZE WORLDO");
+                            }
+
+                        }
+                        if (ex == false) {
+                            usr[i] = 0.5;
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    err = "Exception: " + e.getMessage();
+                    System.out.print(err);
+                }
+            }
+
+            if (sigs == "a" || sigs == "b") {
+                try {
+                    System.out.println(s);
+                    JSONObject root = new JSONObject(s);
+                    JSONArray menu = root.getJSONArray("results");
+                    System.out.println(s);
+                    rar = new String[menu.length()];
+                    foodstuffs  = new int[rar.length][tag.length];
+                    sim = new double[rar.length];
+                    biggs = new String[rar.length];
+                    m  = new String[rar.length];
+
+
+
+                    for (int i =0; i<menu.length(); i++) {
+                        JSONObject ff = menu.getJSONObject(i);
+                        NAME = ff.getString("NAME");
+                        rar[i] = NAME;
+                        biggs[i] = ff.getString("ID");
+                        System.out.println(biggs[i]);
                     /*RAT = ff.getString("RATING");
                     num[i].setText(RAT);*/
-                }
+                    }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-                err = "Exception: "+e.getMessage();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    err = "Exception: "+e.getMessage();
+                }
+                for (int ii = 0; ii<rar.length; ii++) {
+
+
+                    setFrar(ii);
+
+
+
+
+
+
+
+                }
             }
+
+
 
             /*for (int i = 0; i<num.length ; i++) {
                 Random nums = new Random();
@@ -462,145 +692,139 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
                 //num[i] = tempss;
             }*/
-            String[] m = new String[rar.length];
-            if (sigs == "b") {
-                for (int i = 0; i<rar.length; i++) {
-                    //call method to pull food item tags, use json to place them in an array
-                    double[] tags = new double[10];
-                    tags[0] = 1;
-                    for (int ii = 1; ii<10; ii++) {
-                        Random nums = new Random();
-                        int temps = nums.nextInt(2);
-                        tags[ii] = temps;
-
-                    }
-                    sim[i] = cossim(usr,tags);
-                    System.out.println(sim[i]);
 
 
+
+
+
+            if (sigs == "a" | sigs == "f") {
+                TextView lbl_name = (TextView) findViewById(R.id.name);
+                CharSequence name = lbl_name.getText();
+                names = name.toString();
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View convertView = (View) inflater.inflate(R.layout.list_item2, null);
+                holder = new ViewHolder();
+                holder.Name = (TextView) convertView.findViewById(R.id.title);
+                //String f = holder.Name.getText().toString();
+                convertView.setTag(holder);
+                alertDialog.setView(convertView);
+                if (sigs == "a") {
+                    alertDialog.setTitle(names + "'s Menu");
+                } else if (sigs == "f") {
+                    alertDialog.setTitle("Recommendations");
                 }
 
-                m = bubbleSort(rar,sim);
-            }
-            String[] mm = new String[5];
-            for (int i = 0; i<mm.length; i++) {
-                mm[i] = m[i];
-            }
+                alertDialog.setCancelable(true);
+                alertDialog.setPositiveButton(
+                        "Back",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+                ListView lv = (ListView) convertView.findViewById(R.id.listView);
+                if (sigs == "a") {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(SinglePlaceActivity.this, android.R.layout.simple_list_item_1, rar);
+                    lv.setAdapter(adapter);
+                }
 
 
-            TextView lbl_name = (TextView) findViewById(R.id.name);
-            CharSequence name = lbl_name.getText();
-            names = name.toString();
+                alertDialog.show();
+                if (sigs == "a") {
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
-            LayoutInflater inflater = getLayoutInflater();
-            View convertView = (View) inflater.inflate(R.layout.list_item2, null);
-            holder = new ViewHolder();
-            holder.Name = (TextView) convertView.findViewById(R.id.title);
-            //String f = holder.Name.getText().toString();
-            convertView.setTag(holder);
-            alertDialog.setView(convertView);
-            if (sigs == "a") {
-                alertDialog.setTitle(names+"'s Menu");
-            }
-            else if (sigs == "b") {
-                alertDialog.setTitle("Recommendations");
-            }
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
+                            alertDialog.setTitle("Item Information");
+                            alertDialog.setMessage("Rating:\n\n\n Description:");
+                            alertDialog.setCancelable(true);
+                            alertDialog.setPositiveButton(
+                                    "Back",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
 
-            alertDialog.setCancelable(true);
-            alertDialog.setPositiveButton(
-                    "Back",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
                         }
                     });
-            ListView lv = (ListView) convertView.findViewById(R.id.listView);
-            if (sigs == "a") {
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SinglePlaceActivity.this,android.R.layout.simple_list_item_1,rar);
-                lv.setAdapter(adapter);
-            }
-            else {
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SinglePlaceActivity.this,android.R.layout.simple_list_item_1,mm);
-                lv.setAdapter(adapter);
-            }
-
-
-            alertDialog.show();
-            if (sigs == "a") {
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
-                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
-                        alertDialog.setTitle("Item Information");
-                        alertDialog.setMessage("Rating:\n\n\n Description:");
-                        alertDialog.setCancelable(true);
-                        alertDialog.setPositiveButton(
-                                "Back",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        alertDialog.show();
-
-                    }
-                });
-            }
-
-
-
-        }
-        class ViewHolder {
-            TextView Name;
-
-        }
-        public String[] bubbleSort(String[] a, double[] b) {
-            boolean swap = true;
-            int j = 0;
-            double tmp;
-            String tmps;
-            while (swap) {
-                swap = false;
-                j++;
-                for (int i =0; i< a.length - j; i++) {
-                    if (b[i] < b[i + 1]) {
-                        tmp = b[i];
-                        tmps = a[i];
-                        b[i] = b[i + 1];
-                        a[i] = a[i + 1];
-                        b[i + 1] = tmp;
-                        a[i + 1] = tmps;
-                        swap = true;
-
-
-                    }
                 }
             }
-            return a;
+
         }
-        public double dot(double a[],double b[]) {
-            double sum = 0;
-            for (int i = 0; i<a.length; i++) {
-                sum += a[i] * b[i];
+
+
+
+    }
+    class ViewHolder {
+        TextView Name;
+
+    }
+    public String[] bubbleSort(String[] a, double[] b) {
+        boolean swap = true;
+        int j = 0;
+        double tmp;
+        String tmps;
+        while (swap) {
+            swap = false;
+            j++;
+            for (int i =0; i< a.length - j; i++) {
+                if (b[i] < b[i + 1]) {
+                    tmp = b[i];
+                    tmps = a[i];
+                    b[i] = b[i + 1];
+                    a[i] = a[i + 1];
+                    b[i + 1] = tmp;
+                    a[i + 1] = tmps;
+                    swap = true;
+
+
+                }
             }
-            return sum;
         }
-        public double norm(double a[]) {
-            double sum = 0;
-            for (int i = 0; i<a.length; i++) {
-                sum += a[i] * a[i];
-            }
-            double ll = Math.sqrt(sum);
-            return ll;
+        return a;
+    }
+    public double dot(double a[],double b[]) {
+        double sum = 0;
+        for (int i = 0; i<a.length; i++) {
+            sum += a[i] * b[i];
         }
-        public double cossim(double a[], double b[]) {
-            return dot(a,b) / (norm(a) * norm(b));
+        return sum;
+    }
+    public double norm(double a[]) {
+        double sum = 0;
+        for (int i = 0; i<a.length; i++) {
+            sum += a[i] * a[i];
         }
+        double ll = Math.sqrt(sum);
+        return ll;
+    }
+    public double cossim(double a[], double b[]) {
+        return dot(a,b) / (norm(a) * norm(b));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

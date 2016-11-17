@@ -3,21 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="#bedcf2">
+    android:clickable="true"
+    android:background="@drawable/test2">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.53">
-
-        <Button
-            android:layout_width="191dp"
-            android:layout_height="64dp"
-            android:text="Find Restaurants"
-            android:id="@+id/button2"
-            android:layout_gravity="center_horizontal|bottom"
-            android:textSize="21dp" />
+        android:layout_weight="0.53"
+        >
 
         <TextView
             android:layout_width="186dp"
@@ -32,13 +26,47 @@
 
     </FrameLayout>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="191dp"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Taste Profile"
-        android:id="@+id/button3"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Find Restaurants"
+        android:id="@+id/textView27"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.05"
-        android:textSize="20dp" />
+        android:layout_weight="0.11" />
+
+    <ImageView android:src="@drawable/btn_background_2"
+        android:layout_width="104dp"
+        android:layout_height="101dp"
+        android:clickable="true"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/imageView4"
+        android:layout_below="@+id/imageView3"
+        android:layout_alignEnd="@+id/textView25"
+        android:paddingBottom="40dp"
+        android:layout_weight="0.27" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Edit Taste Profile"
+        android:id="@+id/textView28"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.12" />
+
+    <ImageView android:src="@drawable/btn_background"
+        android:layout_width="104dp"
+        android:layout_height="101dp"
+        android:clickable="true"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/imageView5"
+        android:layout_below="@+id/imageView3"
+        android:layout_alignEnd="@+id/textView25"
+        android:paddingBottom="40dp"
+        android:layout_weight="0.27" />
+
+
+
+
 </LinearLayout>

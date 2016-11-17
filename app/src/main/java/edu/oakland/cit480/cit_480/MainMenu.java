@@ -4,12 +4,18 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainMenu extends Activity implements View.OnClickListener{
@@ -18,6 +24,9 @@ public class MainMenu extends Activity implements View.OnClickListener{
     Button button2, button3;
     TextView welcomeBox;
     String username;
+
+    ImageView rest, tastep;
+    Drawable rest1;
 
     //Added 10/19
     @Override
@@ -33,16 +42,25 @@ public class MainMenu extends Activity implements View.OnClickListener{
 
         context = this.getApplicationContext();
 
-        button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(this);
+        //rest1 = (R.drawable.food_and_neverage);
 
-        button3 = (Button) findViewById(R.id.button3);
-        button3.setOnClickListener(this);
+        rest = (ImageView) findViewById(R.id.imageView4);
+        rest.setOnClickListener(this);
+
+        tastep = (ImageView) findViewById(R.id.imageView5);
+        tastep.setOnClickListener(this);
+        //tastep.setImageResource(R.drawable.food_and_neverage);
+
+        //button2 = (Button) findViewById(R.id.button2);
+        //button2.setOnClickListener(this);
+
+        //button3 = (Button) findViewById(R.id.button3);
+        //button3.setOnClickListener(this);
         welcomeBox = (TextView) findViewById(R.id.textView);
         //Added 10/19
         SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
         String username = sp.getString("USER_NAME", "");
-        welcomeBox.setText("Welcome, "+username);
+        welcomeBox.setText("Welcome, "+username+"!");
 
     }
     @Override
@@ -81,31 +99,37 @@ public class MainMenu extends Activity implements View.OnClickListener{
     }
     private void button2Click() {
 
+
+
         Intent myIntent = new Intent(context, RestaurantList.class);
         //myIntent.putExtra("userInput", userInput.getText().toString());
         startActivity(myIntent);
     }
     private void button3Click() {
 
+        //tastep.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        //tastep.setImageResource(R.drawable.food_and_neverage);
         Intent myIntent = new Intent(getApplicationContext(), Questionnaire.class);
         //myIntent.putExtra("userInput", userInput.getText().toString());
         startActivity(myIntent);
-    }
 
+    }
     public void onClick(View v) {
 
         switch (v.getId())
         {
-            case R.id.button2:
+
+            case R.id.imageView4:
                 button2Click();
                 break;
-
-            case R.id.button3:
+            case R.id.imageView5:
                 button3Click();
                 break;
         }
 
     }
+
+
 
 }
 

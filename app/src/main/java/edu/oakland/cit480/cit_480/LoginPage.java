@@ -125,7 +125,7 @@ public class LoginPage extends Activity {
             switch(SUCCESS){
 
                 case 0:
-                    s = "Invalid user/password";
+                    s = "Invalid username and/or password!";
                     Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
