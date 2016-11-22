@@ -29,7 +29,6 @@ public class LoginPage extends Activity {
     String USERNAME=null, PASSWORD=null, EMAIL=null, RETURN_MESSAGE=null;
     int SUCCESS;
 
-
     @Override
     public void onBackPressed(){
         this.finishAffinity();
@@ -141,13 +140,7 @@ public class LoginPage extends Activity {
                     Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
                     break;
 
-
-
             }
-
-
-
-
         }
 
         public void save(String key, String value){

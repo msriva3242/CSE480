@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+
+            <!-- Specify a semi-transparent solid green background color -->
+            <solid android:color="#ffd7b8" />
+
+            <!-- Specify a dark green border -->
+
+            <!-- Specify the margins that all content inside the drawable must adhere to -->
+
+
+        </shape>
+    </item>
+
+</layer-list>

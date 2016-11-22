@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffd7b8">
+    android:background="@drawable/btn_restaurant_listview">
 
     <TextView android:id="@+id/reference"
         android:visibility="gone"

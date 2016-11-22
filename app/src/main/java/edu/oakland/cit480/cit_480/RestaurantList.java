@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -26,8 +25,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class RestaurantList extends Activity {
-
-    ImageView showmap;
 
     // flag for Internet connection status
     Boolean isInternetPresent = false;
@@ -48,16 +45,18 @@ public class RestaurantList extends Activity {
     GPSTracker gps;
 
     // Button
-    Button btnShowOnMap;
+    //Button btnShowOnMap;
 
     // Progress dialog
     ProgressDialog pDialog;
+
+    ImageView btnShowOnMap;
 
     // Places Listview
     ListView lv;
 
     // ListItems data
-    ArrayList<HashMap<String, String>> placesListItems = new ArrayList<HashMap<String, String>>();
+    ArrayList<HashMap<String, String>> placesListItems = new ArrayList<HashMap<String,String>>();
 
 
     // KEY Strings
@@ -103,14 +102,14 @@ public class RestaurantList extends Activity {
         lv = (ListView) findViewById(R.id.list);
 
         // button to show on map
-        showmap = (ImageView) findViewById(R.id.imageView6);
+        btnShowOnMap = (ImageView) findViewById(R.id.imageView6);
 
         // calling background Async task to load Google Places
         // After getting places from Google all the data is shown in listview
         new LoadPlaces().execute();
 
         //Button click event for map
-        showmap.setOnClickListener(new View.OnClickListener() {
+        btnShowOnMap.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -136,6 +135,7 @@ public class RestaurantList extends Activity {
                                     int position, long id) {
                 // getting values from selected ListItem
                 String reference = ((TextView) view.findViewById(R.id.reference)).getText().toString();
+                String name = ((TextView) view.findViewById(R.id.name)).getText().toString();
 
                 // Starting new intent
                 Intent in = new Intent(getApplicationContext(),
@@ -144,11 +144,11 @@ public class RestaurantList extends Activity {
                 // Sending place refrence id to single place activity
                 // place refrence id used to get "Place full details"
                 in.putExtra(KEY_REFERENCE, reference);
+                in.putExtra(KEY_NAME, name);
                 startActivity(in);
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -158,30 +158,23 @@ public class RestaurantList extends Activity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == android.R.id.home) {
+        if (id==android.R.id.home) {
             finish();
         }
         if (id == R.id.History) {
             startActivity(new Intent(getApplicationContext(), History.class));
             return true;
         }
-        if (id == R.id.MainMenu) {
-            startActivity(new Intent(RestaurantList.this, MainMenu.class));
-            return true;
-        }
         if (id == R.id.Logout) {
-            clearUserPrefs();
-            startActivity(new Intent(getApplicationContext(), LoginPage.class));
+            startActivity(new Intent(RestaurantList.this, LoginPage.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     //Async process to load Google Play Services
     class LoadPlaces extends AsyncTask<String, String, String> {
@@ -206,7 +199,7 @@ public class RestaurantList extends Activity {
                 String types = "restaurant";
 
                 // Radius in meters
-                double radius = 8614; // Finds restaurants within a 2-mile radius
+                double radius = 3218; // Finds restaurants within a 2-mile radius
 
                 // get nearest places
                 nearPlaces = googlePlaces.search(gps.getLatitude(),
@@ -231,7 +224,7 @@ public class RestaurantList extends Activity {
                     String status = nearPlaces.status;
 
                     // Check for all possible status
-                    if (status.equals("OK")) {
+                    if(status.equals("OK")){
                         // Successfully got places details
                         if (nearPlaces.results != null) {
 
@@ -253,36 +246,47 @@ public class RestaurantList extends Activity {
                             // list adapter
                             ListAdapter adapter = new SimpleAdapter(RestaurantList.this, placesListItems,
                                     R.layout.list_item,
-                                    new String[]{KEY_REFERENCE, KEY_NAME}, new int[]{
-                                    R.id.reference, R.id.name});
+                                    new String[] { KEY_REFERENCE, KEY_NAME}, new int[] {
+                                    R.id.reference, R.id.name });
 
                             // Adding data into listview
 
                             lv.setAdapter(adapter);
 
                         }
-                    } else if (status.equals("ZERO_RESULTS")) {
+                    }
+                    else if(status.equals("ZERO_RESULTS")){
                         // Zero results found
                         alert.showAlertDialog(RestaurantList.this, "Near Places",
                                 "Sorry, no places found",
                                 false);
-                    } else if (status.equals("UNKNOWN_ERROR")) {
+                    }
+                    else if(status.equals("UNKNOWN_ERROR"))
+                    {
                         alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, an unknown error occurred",
                                 false);
-                    } else if (status.equals("OVER_QUERY_LIMIT")) {
+                    }
+                    else if(status.equals("OVER_QUERY_LIMIT"))
+                    {
                         alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, query limit to google places is reached",
                                 false);
-                    } else if (status.equals("REQUEST_DENIED")) {
+                    }
+                    else if(status.equals("REQUEST_DENIED"))
+                    {
                         alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, an error occurred. Request is denied",
                                 false);
-                    } else if (status.equals("INVALID_REQUEST")) {
+                    }
+                    else if(status.equals("INVALID_REQUEST"))
+                    {
                         alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, an error occurred. Invalid Request",
                                 false);
-                    } else {
+                    }
+                    else
+                    {
                         alert.showAlertDialog(RestaurantList.this, "Places Error",
                                 "Sorry, an error occurred.",
                                 false);
@@ -291,11 +295,5 @@ public class RestaurantList extends Activity {
             });
         }
     }
-
-    public void clearUserPrefs() {
-        SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.clear();
-        editor.commit();
-    }
 }
+

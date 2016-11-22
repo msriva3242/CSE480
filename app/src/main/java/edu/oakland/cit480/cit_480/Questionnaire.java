@@ -156,7 +156,7 @@ public class Questionnaire extends Activity implements View.OnClickListener {
         }
         tag[0] = "Salty";
         tag[1] = "Sweet";
-        tag[2] = "Umami";
+        tag[2] = "Savory";
         tag[3] = "Bitter";
         tag[4] = "Sour";
         tag[5] = "Spicy";
@@ -165,15 +165,15 @@ public class Questionnaire extends Activity implements View.OnClickListener {
         tag[8] = "Boiled";
         tag[9] = "Baked";
         tag[10] = "Steamed";
-        tag[11] = "Deep-fried";
-        tag[12] = "Crisp";
+        tag[11] = "Fried";
+        tag[12] = "Crispy";
         tag[13] = "Crunchy";
         tag[14] = "Leafy";
         tag[15] = "Tender";
         tag[16] = "Cheesy";
-        tag[17] = "Nutritious";
-        tag[18] = "Herbed";
-        tag[19] = "Bold";
+        tag[17] = "Juicy";
+        tag[18] = "Chewy";
+        tag[19] = "Starchy";
         Alergy[0] = "Eggs";
         Alergy[1] = "Fish";
         Alergy[2] = "Milk";
@@ -186,6 +186,7 @@ public class Questionnaire extends Activity implements View.OnClickListener {
         Alergy[9] = "Sesame";
         SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
         setTempusr(sp.getString("USER_ID", ""));
+        System.out.println(getTempusr() + "eeee");
         getRatings();
     }
 
@@ -238,6 +239,8 @@ public class Questionnaire extends Activity implements View.OnClickListener {
     }
 
     private void doneButtonClick() {
+        toast1 = Toast.makeText(ctx, "Changes Saved Successfully!", Toast.LENGTH_SHORT);
+        toast1.show();
         Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
         startActivity(myIntent);
     }
@@ -257,6 +260,10 @@ public class Questionnaire extends Activity implements View.OnClickListener {
             if (alCheckBox[i].isChecked()) {
                 BackGround b = new BackGround();
                 b.execute(getTempusr(), Alergy[i], "Null", "al");
+            }
+            else {
+                BackGround b = new BackGround();
+                b.execute(getTempusr(), Alergy[i], "Null", "dal");
             }
         }
     }
@@ -416,7 +423,16 @@ public class Questionnaire extends Activity implements View.OnClickListener {
                     urlParams = "USERID=" + user;
                     setS("Fetching Info...");
                     fetchal = true;
-                } else {
+                }
+                if (op == "dal") {
+                    url = new URL("http://www.secs.oakland.edu/~djrasmus/480/DAlergy.php");
+                    urlParams = "USER=" + user + "&NAME=" + name;
+                    System.out.println(name);
+                    System.out.println(user);
+                    //setS("Saving data");
+                }
+
+                else {
                     //Here's a smiley face instead of some actual code :-)
                 }
 
@@ -445,8 +461,7 @@ public class Questionnaire extends Activity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(String s) {
-            toast1 = Toast.makeText(ctx, getS(), Toast.LENGTH_SHORT);
-            toast1.show();
+
             if (fetch) {
                 try {
                     JSONObject root = new JSONObject(s);

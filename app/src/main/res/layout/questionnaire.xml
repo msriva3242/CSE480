@@ -8,26 +8,23 @@
     android:id="@+id/main"
     android:background="@drawable/test2">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="User Questionnaire"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_above="@+id/SCROLLER_ID"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Please rate the following items from 1 - 5:"
+        android:text="Please select any of the following items:"
         android:id="@+id/textView2"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:paddingTop="20dp"
-        android:paddingBottom="20dp" />
+        android:paddingBottom="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
     <CheckBox
         android:text="Flavors"
@@ -36,7 +33,8 @@
         android:id="@+id/checkBox4"
         android:onClick="OnCheckBoxClick"
         android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/checkBox" />
 
     <CheckBox
         android:text="Preperation"
@@ -44,8 +42,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/checkBox3"
         android:onClick="OnCheckBoxClick"
-        android:layout_below="@+id/checkBox4"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/textView2"
+        android:layout_toEndOf="@+id/checkBox4" />
 
     <CheckBox
         android:text="Texture"
@@ -54,7 +52,7 @@
         android:id="@+id/checkBox2"
         android:onClick="OnCheckBoxClick"
         android:layout_below="@+id/checkBox3"
-        android:layout_alignParentStart="true" />
+        android:layout_alignStart="@+id/checkBox3" />
 
     <CheckBox
         android:text="Other"
@@ -62,7 +60,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/checkBox"
         android:onClick="OnCheckBoxClick"
-        android:layout_below="@+id/checkBox2"
+        android:layout_below="@+id/checkBox4"
         android:layout_alignParentStart="true" />
 
     <CheckBox
@@ -71,19 +69,21 @@
         android:layout_height="wrap_content"
         android:id="@+id/checkBox15"
         android:onClick="OnCheckBoxClick"
-        android:layout_below="@+id/checkBox"
-        android:layout_alignEnd="@+id/checkBox" />
+        android:layout_below="@+id/checkBox2"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp" />
 
     <ScrollView
         android:id="@+id/SCROLLER_ID"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
+
         android:fillViewport="true"
         android:paddingLeft="20dp"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/checkBox15"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="177dp">
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -429,12 +429,14 @@
 
             <Button
                 android:text="Submit"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/SubmitButton"
                 android:layout_above="@+id/SCROLLER_ID"
                 android:layout_alignRight="@+id/textView"
-                android:layout_alignEnd="@+id/textView" />
+                android:layout_alignEnd="@+id/textView"
+                android:background="@drawable/btn_background_login_register"
+                android:layout_marginTop="15dp" />
 
             <TextView
                 android:layout_width="match_parent"
