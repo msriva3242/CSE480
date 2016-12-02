@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
     String[] TAGNAME = new String[200];
     String[] RATING = new String[200];
     String[] rar;
+    boolean[] al;
     double[] usr = new double[20];
     double[] frar = new double[20];
     String[] mm = new String[5];
@@ -76,6 +78,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
     JSONArray utag;
     JSONArray mtag;
     JSONArray rat;
+    JSONArray atag;
 
     String des = "w/e";
     String loc = "w/e";
@@ -142,9 +145,11 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.single_place);
         menus = (ImageView) findViewById(R.id.imageView2);
         menus.setOnClickListener(this);
+        menus.setClickable(false);
 
         rc = (ImageView) findViewById(R.id.imageView3);
         rc.setOnClickListener(this);
+        rc.setClickable(false);
 
         Intent i = getIntent();
 
@@ -188,20 +193,19 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
         setTempusr(sp.getString("USER_ID", ""));
         nam = getTempusr();
-        System.out.println(getTempusr() + "wub");
-        System.out.println("w/e");
-        System.out.println(getTempusr());
-        System.out.println(getTempusr());
+
         sig = "c";
 
 
         BackGround me = new BackGround();
-        me.execute(getTempusr(), sig, "0", "0");
+        me.execute(getTempusr(), sig, "0", "0", "0");
         BackGround eee = new BackGround();
-        eee.execute(getTempusr(), "e", "0", "0");
+        eee.execute(getTempusr(), "e", "0", "0", "0");
+        BackGround we = new BackGround();
+        we.execute(getTempusr(), "r", "0", "0", "0");
         BackGround mee = new BackGround();
         sig = "b";
-        mee.execute(namee, sig, "0", "0");
+        mee.execute(namee, sig, "0", "0", "0");
 
 
 
@@ -374,7 +378,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
 
         BackGround me = new BackGround();
-        me.execute(names, sig, "0", "0");
+        me.execute(names, sig, "0", "0", "0");
 
         //progressbar.setVisibility(View.GONE);
     }
@@ -382,20 +386,32 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         String[] srar = new String[rar.length];
         for (int y = 0; y<sim.length; y++) {
             sim[y] = 0;
+            System.out.println(al[y]);
         }
         for (int x = 0; x<rar.length; x++) {
-            srar[x] = rar[x];
-            System.out.println(srar[x]);
+            if (al[x]) {
+
+            }
+            else {
+                srar[x] = rar[x];
+                System.out.println(srar[x]);
+            }
+
         }
 
 
         for (int i = 0; i<rar.length; i++) {
-            for (int j = 0; j<frar.length; j++) {
-                frar[j] = foodstuffs[i][j];
+            if (al[i]) {
 
             }
-            if (cossim(usr,frar) > 0 ) {
-                sim[i] = cossim(usr,frar);
+            else {
+                for (int j = 0; j<frar.length; j++) {
+                    frar[j] = foodstuffs[i][j];
+
+                }
+                if (cossim(usr,frar) > 0 ) {
+                    sim[i] = cossim(usr,frar);
+                }
             }
 
 
@@ -476,11 +492,18 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                     e.printStackTrace();
 
                 }
+                LayoutInflater inflater = getLayoutInflater();
+                View convertViews = (View) inflater.inflate(R.layout.histdia, null);
+                final RatingBar urat = (RatingBar) convertViews.findViewById(R.id.ratingBar);
+                String der = "2.50";
+                float derat = Float.valueOf(der);
+                urat.setRating(derat);
 
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
+                alertDialog.setView(convertViews);
                 alertDialog.setTitle("Item Information");
-                alertDialog.setMessage("Rating: "+ rating + "\n\nDescription: \n\n" + des);
+                alertDialog.setMessage("Description:" + des +"\nLast rating:"+ rating + "\nCurrent rating:");
                 alertDialog.setCancelable(true);
                 alertDialog.setNegativeButton(
                         "Back",
@@ -494,7 +517,8 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 System.out.println("Choosen Country = : " + text);
-                                setHistory(fid,nam,loc);
+                                Float crat = urat.getRating();
+                                setHistory(fid,nam,loc, crat.toString());
 
                                 dialog.dismiss();
                             }
@@ -553,14 +577,19 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
     }
     public void setFrar(int w) {
         BackGround c = new BackGround();
-        c.execute(biggs[w], "d", Integer.toString(w), "0");
+        System.out.println(biggs[w]);
+        c.execute(biggs[w], "d", Integer.toString(w), "0", "0");
 
 
 
     }
-    public void setHistory(String Fid, String Id, String place) {
+    public void getHistory() {
+        BackGround eee = new BackGround();
+        eee.execute(getTempusr(), "e", "0", "0", "0");
+    }
+    public void setHistory(String Fid, String Id, String place, String crat) {
         BackGround H = new BackGround();
-        H.execute(Fid,"y", getTempusr(), place);
+        H.execute(Fid,"y", getTempusr(), place, crat);
     }
 
 
@@ -602,7 +631,8 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
             sigs = params[1];
             foodcount = params[2];
             place = params[3];
-            temprat = "2.5";
+            temprat = params[4];
+
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date = dateFormat.format(new Date()).toString();
 
@@ -618,7 +648,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
             //System.out.println(sigs);
 
             try {
-                if (sigs == "a" || sigs == "b") {
+                if (sigs == "b") {
                     url = new URL("http://www.secs.oakland.edu/~djrasmus/480/menus3.php");
                     urlParams = "name="+name;
                 }
@@ -633,6 +663,10 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                 else if (sigs == "e") {
                     url = new URL("http://www.secs.oakland.edu/~djrasmus/480/getHist.php");
                     urlParams = "USERID="+name;
+                }
+                else if (sigs == "r") {
+                    url = new URL("http://www.secs.oakland.edu/~djrasmus/480/getAllergens.php");
+                    urlParams = "USERID=" + name;
                 }
                 else  {
                     url = new URL("http://www.secs.oakland.edu/~djrasmus/480/inHist.php");
@@ -695,10 +729,24 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
             num[18] = (TextView) findViewById(R.id.textView68);
             num[19] = (TextView) findViewById(R.id.textView70);*/
             if (sigs == "y") {
+                System.out.println(s);
                 if(s.equals("")){
                     s="Data saved successfully.";
                 }
                 Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
+                getHistory();
+            }
+            if (sigs == "r") {
+                try {
+                    root = new JSONObject(s);
+
+                    atag = root.getJSONArray("results");
+                    System.out.println(s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    err = "Exception: " + e.getMessage();
+                    System.out.print(err);
+                }
             }
             if (sigs == "e") {
                 try {
@@ -711,6 +759,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                     err = "Exception: " + e.getMessage();
                     System.out.print(err);
                 }
+
             }
             if (sigs == "d") {
 
@@ -724,17 +773,27 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
                     for (int i = 0; i < tag.length; i++) {
                         boolean ex = false;
+                        int foodone = Integer.valueOf(foodcount);
 
                         for (int j = 0; j < mtag.length(); j++) {
                             JSONObject ff = mtag.getJSONObject(j);
                             TAGNAME[j] = ff.getString("TAG NAME");
                             //System.out.println(tag[i]);
                             //System.out.println(TAGNAME[j]);
+                            for (int r = 0; r<atag.length(); r++) {
+                                JSONObject fe = atag.getJSONObject(r);
+                                String aler = fe.getString("NAME");
+                                if (aler.equals(TAGNAME[j])) {
+                                    al[foodone] = true;
+                                }
+
+
+                            }
 
 
 
                             if (TAGNAME[j].equals(tag[i])) {
-                                int foodone = Integer.valueOf(foodcount);
+
                                 foodstuffs[foodone][i] = 1;
 
                                 ex = true;
@@ -747,7 +806,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                         if (ex == false) {
                             Random y = new Random();
                             int fff = y.nextInt(2);
-                            int foodone = Integer.valueOf(foodcount);
+
                             foodstuffs[foodone][i] = 0;
                             //System.out.println(foodstuffs[foodone][i]);
 
@@ -760,11 +819,15 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                     err = "Exception: " + e.getMessage();
                     System.out.print(err);
                 }
-                wait = 1;
+                if (Integer.valueOf(foodcount) == (biggs.length - 1 )) {
+                    menus.setClickable(true);
+                    rc.setClickable(true);
+                }
             }
             if (sigs == "c") {
                 try {
                     root = new JSONObject(s);
+                    System.out.println(s);
                     utag = root.getJSONArray("results");
                     for (int i = 0; i < tag.length; i++) {
                         boolean ex = false;
@@ -794,10 +857,11 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                 }
             }
 
-            if (sigs == "a" || sigs == "b") {
+            if (sigs == "b") {
                 try {
                     //System.out.println(s);
                     root = new JSONObject(s);
+                    System.out.println(s);
                     menu = root.getJSONArray("results");
                     // System.out.println(s);
                     rar = new String[menu.length()];
@@ -805,6 +869,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                     sim = new double[rar.length];
                     biggs = new String[rar.length];
                     m  = new String[rar.length];
+                    al = new boolean[rar.length];
 
 
 
@@ -836,6 +901,7 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
 
 
                     }
+
                 }
 
             }
@@ -938,11 +1004,18 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                                 e.printStackTrace();
 
                             }
+                            LayoutInflater inflater = getLayoutInflater();
+                            View convertViews = (View) inflater.inflate(R.layout.histdia, null);
+                            final RatingBar urat = (RatingBar) convertViews.findViewById(R.id.ratingBar);
+                            String der = "2.50";
+                            float derat = Float.valueOf(der);
+                            urat.setRating(derat);
 
 
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(SinglePlaceActivity.this);
+                            alertDialog.setView(convertViews);
                             alertDialog.setTitle("Item Information");
-                            alertDialog.setMessage("Rating:"+ rating + "\n Description:" + des);
+                            alertDialog.setMessage("Description:" + des +"\nLast rating:"+ rating + "\nCurrent rating:");
                             alertDialog.setCancelable(true);
                             alertDialog.setNegativeButton(
                                     "Back",
@@ -956,7 +1029,8 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             System.out.println("Choosen Country = : " + text);
-                                            setHistory(fid,nam,loc);
+                                            Float crat = urat.getRating();
+                                            setHistory(fid,nam,loc, crat.toString());
 
                                             dialog.dismiss();
                                         }
@@ -1028,6 +1102,12 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         return dot(a,b) / (norm(a) * norm(b));
     }
 }
+
+
+
+
+
+
 
 
 

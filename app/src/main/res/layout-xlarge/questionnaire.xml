@@ -13,11 +13,12 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
         android:layout_above="@+id/SCROLLER_ID"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:id="@+id/view" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Please select any of the following items:"
         android:id="@+id/textView2"
@@ -26,13 +27,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/checkBox3"
-        android:textSize="45dp" />
+        android:textSize="35dp" />
 
     <CheckBox
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/checkBox4"
-
+        android:scaleX=".70"
+        android:scaleY="0.70"
         android:onClick="OnCheckBoxClick"
         android:layout_below="@+id/textView2"
         android:layout_alignParentStart="true"
@@ -49,16 +51,6 @@
         android:layout_toEndOf="@+id/checkBox4" />
 
     <CheckBox
-        android:text="Texture"
-        
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox2"
-        android:onClick="OnCheckBoxClick"
-        android:layout_below="@+id/checkBox3"
-        android:layout_alignStart="@+id/checkBox3" />
-
-    <CheckBox
         android:text="Other"
         android:layout_width="121dp"
         android:layout_height="wrap_content"
@@ -68,14 +60,17 @@
         android:layout_alignParentStart="true" />
 
     <CheckBox
-        android:text="Any allergies?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/checkBox15"
+        android:scaleX="1.70"
+        android:scaleY="1.70"
         android:onClick="OnCheckBoxClick"
-        android:layout_below="@+id/checkBox2"
+        android:checked="false"
+        android:text="Any Allergies?"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginStart="41dp"
+        android:layout_below="@+id/checkBox3" />
 
     <ScrollView
         android:id="@+id/SCROLLER_ID"
@@ -457,11 +452,9 @@
         android:id="@+id/checkBox16"
         android:scaleX="1.70"
         android:scaleY="1.70"
-        android:layout_alignBaseline="@+id/checkBox2"
-        android:layout_alignBottom="@+id/checkBox2"
-        android:layout_alignEnd="@+id/textView2"
-        android:layout_marginEnd="135dp"
-        android:checked="false" />
+        android:checked="false"
+        android:layout_below="@+id/checkBox3"
+        android:layout_alignStart="@+id/checkBox3" />
 
 
 </RelativeLayout>

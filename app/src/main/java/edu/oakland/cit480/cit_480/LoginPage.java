@@ -26,7 +26,7 @@ public class LoginPage extends Activity {
     EditText username, password;
     String Username, Password;
     Context ctx=this;
-    String USERNAME=null, PASSWORD=null, EMAIL=null, RETURN_MESSAGE=null;
+    String USERNAME=null, PASSWORD=null, EMAIL=null, USERID=null, RETURN_MESSAGE=null;
     int SUCCESS;
 
     @Override
@@ -115,6 +115,7 @@ public class LoginPage extends Activity {
                 JSONObject user_data = root.getJSONObject("user_data");
                 RETURN_MESSAGE = user_data.getString("message");
                 USERNAME = user_data.getString("username");
+                USERID = user_data.getString("id");
                 SUCCESS = user_data.getInt("success");
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -133,6 +134,7 @@ public class LoginPage extends Activity {
                     Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(ctx, MainMenu.class);
                     save("USER_NAME", USERNAME);
+                    save("USER_ID", USERID);
                     startActivity(i);
                     break;
                 default:
@@ -146,7 +148,7 @@ public class LoginPage extends Activity {
         public void save(String key, String value){
             SharedPreferences sp = getSharedPreferences("mealreel_prefs", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
-            editor.putString("USER_NAME", USERNAME);
+            editor.putString(key, value);
             editor.commit();
         }
 
@@ -156,4 +158,6 @@ public class LoginPage extends Activity {
         startActivity(i);
     }
 }
+
+
 
