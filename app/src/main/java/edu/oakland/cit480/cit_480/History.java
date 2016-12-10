@@ -2,6 +2,7 @@ package edu.oakland.cit480.cit_480;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,6 +42,7 @@ public class History extends Activity {
     String[] des;
     String[] rar;
     Context ctx=this;
+    ProgressDialog pDialog;
 
     String date;
     String loc;
@@ -62,6 +64,11 @@ public class History extends Activity {
         sigs = "a";
         BackGround b = new BackGround();
         b.execute(sigs, getTempusr(), "0");
+        pDialog = new ProgressDialog(History.this);
+        pDialog.setMessage("Loading profile ...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
     }
     public void getHistory() {
@@ -73,6 +80,7 @@ public class History extends Activity {
     public void setLvClick() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(History.this, android.R.layout.simple_list_item_1, rar);
         lv.setAdapter(adapter);
+        pDialog.dismiss();
 
 
 
@@ -233,7 +241,7 @@ public class History extends Activity {
                 }
                 else {
                     url = new URL("http://www.secs.oakland.edu/~djrasmus/480/updatehist.php");
-                    urlParams = "DATE="+name + "RAT=" + in;
+                    urlParams = "DATE="+name + "&RAT=" + in;
                 }
 
 
@@ -310,6 +318,10 @@ public class History extends Activity {
     }
 
 }
+
+
+
+
 
 
 

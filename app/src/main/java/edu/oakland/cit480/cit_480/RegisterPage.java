@@ -138,7 +138,7 @@ public class RegisterPage extends Activity {
             switch(SUCCESS){
 
                 case 0:
-                    s = "Please enter a valid username, password, and/or email address!";
+                    s = RETURN_MESSAGE;
                     Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
                     break;
                 case 1:

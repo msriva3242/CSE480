@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.os.AsyncTask;
@@ -276,60 +277,31 @@ public class Questionnaire extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
-    public void OnCheckBoxClick(View view) {
+    public void OnCheckBoxClick2(View view) {
+        RadioButton cb1 =(RadioButton)findViewById(R.id.checkBox);
+        RadioButton cb2 =(RadioButton)findViewById(R.id.checkBox2);
+        RadioButton cb3 =(RadioButton)findViewById(R.id.checkBox3);
+        RadioButton cb4 =(RadioButton)findViewById(R.id.checkBox4);
+        //RadioButton cb5 =(RadioButton)findViewById(R.id.checkBox15);
         boolean checked = ((CheckBox) view).isChecked();
-        switch (view.getId()) {
-            case R.id.checkBox:
-                if (checked) {
-                    for (int i = 17; i < 20; i++) {
-                        ratingBar[i].setVisibility(View.VISIBLE);
-                    }
-                    Nutritious.setVisibility(View.VISIBLE);
-                    Herbed.setVisibility(View.VISIBLE);
-                    Bold.setVisibility(View.VISIBLE);
 
-                } else {
-                    for (int i = 17; i < 20; i++) {
-                        ratingBar[i].setVisibility(View.GONE);
+        switch (view.getId()) {
+            case R.id.checkBox15:
+                if(checked) {
+                    if (checked) {
+                        cb1.setChecked(false);
+                        cb2.setChecked(false);
+                        cb3.setChecked(false);
+                        cb4.setChecked(false);
+                        //cb5.setChecked(true);
+
+                        for (CheckBox anAlCheckBox : alCheckBox) {
+                            anAlCheckBox.setVisibility(View.VISIBLE);
+                        }
+                        AI.setVisibility(View.VISIBLE);
                     }
-                    Nutritious.setVisibility(View.GONE);
-                    Herbed.setVisibility(View.GONE);
-                    Bold.setVisibility(View.GONE);
-                }
-                break;
-            case R.id.checkBox2:
-                if (checked) {
-                    for (int i = 12; i < 17; i++) {
-                        ratingBar[i].setVisibility(View.VISIBLE);
-                    }
-                    Crisp.setVisibility(View.VISIBLE);
-                    Crunchy.setVisibility(View.VISIBLE);
-                    Leafy.setVisibility(View.VISIBLE);
-                    Tender.setVisibility(View.VISIBLE);
-                    Cheesy.setVisibility(View.VISIBLE);
-                } else {
-                    for (int i = 12; i < 17; i++) {
-                        ratingBar[i].setVisibility(View.GONE);
-                    }
-                    Crisp.setVisibility(View.GONE);
-                    Crunchy.setVisibility(View.GONE);
-                    Leafy.setVisibility(View.GONE);
-                    Tender.setVisibility(View.GONE);
-                    Cheesy.setVisibility(View.GONE);
-                }
-                break;
-            case R.id.checkBox3:
-                if (checked) {
-                    for (int i = 7; i < 12; i++) {
-                        ratingBar[i].setVisibility(View.VISIBLE);
-                    }
-                    Grilled.setVisibility(View.VISIBLE);
-                    Boiled.setVisibility(View.VISIBLE);
-                    Baked.setVisibility(View.VISIBLE);
-                    Steamed.setVisibility(View.VISIBLE);
-                    Deepfried.setVisibility(View.VISIBLE);
-                } else {
+
+
                     for (int i = 7; i < 12; i++) {
                         ratingBar[i].setVisibility(View.GONE);
                     }
@@ -338,21 +310,25 @@ public class Questionnaire extends Activity implements View.OnClickListener {
                     Baked.setVisibility(View.GONE);
                     Steamed.setVisibility(View.GONE);
                     Deepfried.setVisibility(View.GONE);
-                }
-                break;
-            case R.id.checkBox4:
-                if (checked) {
-                    for (int i = 0; i < 7; i++) {
-                        ratingBar[i].setVisibility(View.VISIBLE);
+
+
+                    for (int i = 17; i < 20; i++) {
+                        ratingBar[i].setVisibility(View.GONE);
                     }
-                    Sour.setVisibility(View.VISIBLE);
-                    Creamy.setVisibility(View.VISIBLE);
-                    Spicy.setVisibility(View.VISIBLE);
-                    Sweet.setVisibility(View.VISIBLE);
-                    Umami.setVisibility(View.VISIBLE);
-                    Bitter.setVisibility(View.VISIBLE);
-                    Salty.setVisibility(View.VISIBLE);
-                } else {
+                    Nutritious.setVisibility(View.GONE);
+                    Herbed.setVisibility(View.GONE);
+                    Bold.setVisibility(View.GONE);
+
+                    for (int i = 12; i < 17; i++) {
+                        ratingBar[i].setVisibility(View.GONE);
+                    }
+                    Crisp.setVisibility(View.GONE);
+                    Crunchy.setVisibility(View.GONE);
+                    Leafy.setVisibility(View.GONE);
+                    Tender.setVisibility(View.GONE);
+                    Cheesy.setVisibility(View.GONE);
+
+
                     for (int i = 0; i < 7; i++) {
                         ratingBar[i].setVisibility(View.GONE);
                     }
@@ -363,21 +339,303 @@ public class Questionnaire extends Activity implements View.OnClickListener {
                     Umami.setVisibility(View.GONE);
                     Bitter.setVisibility(View.GONE);
                     Salty.setVisibility(View.GONE);
+
+
+
+
+                    break;
+
                 }
+        }
+    }
+
+    public void OnCheckBoxClick(View view) {
+        RadioButton cb1 =(RadioButton)findViewById(R.id.checkBox);
+        RadioButton cb2 =(RadioButton)findViewById(R.id.checkBox2);
+        RadioButton cb3 =(RadioButton)findViewById(R.id.checkBox3);
+        RadioButton cb4 =(RadioButton)findViewById(R.id.checkBox4);
+        RadioButton cb5 =(RadioButton)findViewById(R.id.checkBox15);
+        switch (view.getId()) {
+            case R.id.checkBox:
+
+
+
+                cb1.setChecked(true);
+                cb2.setChecked(false);
+                cb3.setChecked(false);
+                cb4.setChecked(false);
+                cb5.setChecked(false);
+                for (int i = 17; i < 20; i++) {
+                    ratingBar[i].setVisibility(View.VISIBLE);
+                }
+                Nutritious.setVisibility(View.VISIBLE);
+                Herbed.setVisibility(View.VISIBLE);
+                Bold.setVisibility(View.VISIBLE);
+
+                for (int i = 12; i < 17; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Crisp.setVisibility(View.GONE);
+                Crunchy.setVisibility(View.GONE);
+                Leafy.setVisibility(View.GONE);
+                Tender.setVisibility(View.GONE);
+                Cheesy.setVisibility(View.GONE);
+
+                for (int i = 7; i < 12; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Grilled.setVisibility(View.GONE);
+                Boiled.setVisibility(View.GONE);
+                Baked.setVisibility(View.GONE);
+                Steamed.setVisibility(View.GONE);
+                Deepfried.setVisibility(View.GONE);
+
+                for (int i = 0; i < 7; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Sour.setVisibility(View.GONE);
+                Creamy.setVisibility(View.GONE);
+                Spicy.setVisibility(View.GONE);
+                Sweet.setVisibility(View.GONE);
+                Umami.setVisibility(View.GONE);
+                Bitter.setVisibility(View.GONE);
+                Salty.setVisibility(View.GONE);
+
+                for (CheckBox anAlCheckBox : alCheckBox) {
+                    anAlCheckBox.setVisibility(View.GONE);
+                }
+                AI.setVisibility(View.GONE);
+
+
+
+
+
+
                 break;
+            case R.id.checkBox2:
+
+                cb1.setChecked(false);
+                cb2.setChecked(true);
+                cb3.setChecked(false);
+                cb4.setChecked(false);
+                cb5.setChecked(false);
+                for (int i = 12; i < 17; i++) {
+                    ratingBar[i].setVisibility(View.VISIBLE);
+                }
+                Crisp.setVisibility(View.VISIBLE);
+                Crunchy.setVisibility(View.VISIBLE);
+                Leafy.setVisibility(View.VISIBLE);
+                Tender.setVisibility(View.VISIBLE);
+                Cheesy.setVisibility(View.VISIBLE);
+
+
+                for (int i = 17; i < 20; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Nutritious.setVisibility(View.GONE);
+                Herbed.setVisibility(View.GONE);
+                Bold.setVisibility(View.GONE);
+
+                for (int i = 7; i < 12; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Grilled.setVisibility(View.GONE);
+                Boiled.setVisibility(View.GONE);
+                Baked.setVisibility(View.GONE);
+                Steamed.setVisibility(View.GONE);
+                Deepfried.setVisibility(View.GONE);
+
+                for (int i = 0; i < 7; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Sour.setVisibility(View.GONE);
+                Creamy.setVisibility(View.GONE);
+                Spicy.setVisibility(View.GONE);
+                Sweet.setVisibility(View.GONE);
+                Umami.setVisibility(View.GONE);
+                Bitter.setVisibility(View.GONE);
+                Salty.setVisibility(View.GONE);
+
+                for (CheckBox anAlCheckBox : alCheckBox) {
+                    anAlCheckBox.setVisibility(View.GONE);
+                }
+                AI.setVisibility(View.GONE);
+
+
+
+
+                break;
+            case R.id.checkBox3:
+
+                cb1.setChecked(false);
+                cb2.setChecked(false);
+                cb3.setChecked(true);
+                cb4.setChecked(false);
+                cb5.setChecked(false);
+                for (int i = 7; i < 12; i++) {
+                    ratingBar[i].setVisibility(View.VISIBLE);
+                }
+                Grilled.setVisibility(View.VISIBLE);
+                Boiled.setVisibility(View.VISIBLE);
+                Baked.setVisibility(View.VISIBLE);
+                Steamed.setVisibility(View.VISIBLE);
+                Deepfried.setVisibility(View.VISIBLE);
+
+                for (int i = 17; i < 20; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Nutritious.setVisibility(View.GONE);
+                Herbed.setVisibility(View.GONE);
+                Bold.setVisibility(View.GONE);
+
+                for (int i = 12; i < 17; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Crisp.setVisibility(View.GONE);
+                Crunchy.setVisibility(View.GONE);
+                Leafy.setVisibility(View.GONE);
+                Tender.setVisibility(View.GONE);
+                Cheesy.setVisibility(View.GONE);
+
+                for (int i = 0; i < 7; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Sour.setVisibility(View.GONE);
+                Creamy.setVisibility(View.GONE);
+                Spicy.setVisibility(View.GONE);
+                Sweet.setVisibility(View.GONE);
+                Umami.setVisibility(View.GONE);
+                Bitter.setVisibility(View.GONE);
+                Salty.setVisibility(View.GONE);
+
+                for (CheckBox anAlCheckBox : alCheckBox) {
+                    anAlCheckBox.setVisibility(View.GONE);
+                }
+                AI.setVisibility(View.GONE);
+
+
+
+
+                break;
+            case R.id.checkBox4:
+
+                cb1.setChecked(false);
+                cb2.setChecked(false);
+                cb3.setChecked(false);
+                cb4.setChecked(true);
+                cb5.setChecked(false);
+                for (int i = 0; i < 7; i++) {
+                    ratingBar[i].setVisibility(View.VISIBLE);
+                }
+                Sour.setVisibility(View.VISIBLE);
+                Creamy.setVisibility(View.VISIBLE);
+                Spicy.setVisibility(View.VISIBLE);
+                Sweet.setVisibility(View.VISIBLE);
+                Umami.setVisibility(View.VISIBLE);
+                Bitter.setVisibility(View.VISIBLE);
+                Salty.setVisibility(View.VISIBLE);
+
+
+                for (int i = 7; i < 12; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Grilled.setVisibility(View.GONE);
+                Boiled.setVisibility(View.GONE);
+                Baked.setVisibility(View.GONE);
+                Steamed.setVisibility(View.GONE);
+                Deepfried.setVisibility(View.GONE);
+
+
+                for (int i = 17; i < 20; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Nutritious.setVisibility(View.GONE);
+                Herbed.setVisibility(View.GONE);
+                Bold.setVisibility(View.GONE);
+
+                for (int i = 12; i < 17; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Crisp.setVisibility(View.GONE);
+                Crunchy.setVisibility(View.GONE);
+                Leafy.setVisibility(View.GONE);
+                Tender.setVisibility(View.GONE);
+                Cheesy.setVisibility(View.GONE);
+
+
+                for (CheckBox anAlCheckBox : alCheckBox) {
+                    anAlCheckBox.setVisibility(View.GONE);
+                }
+                AI.setVisibility(View.GONE);
+
+
+
+
+
+
+                break;
+
             case R.id.checkBox15:
-                if (checked) {
-                    for (CheckBox anAlCheckBox : alCheckBox) {
-                        anAlCheckBox.setVisibility(View.VISIBLE);
-                    }
-                    AI.setVisibility(View.VISIBLE);
-                } else {
-                    for (CheckBox anAlCheckBox : alCheckBox) {
-                        anAlCheckBox.setVisibility(View.GONE);
-                    }
-                    AI.setVisibility(View.GONE);
+
+
+
+                cb1.setChecked(false);
+                cb2.setChecked(false);
+                cb3.setChecked(false);
+                cb4.setChecked(false);
+                cb5.setChecked(true);
+
+
+
+                for (CheckBox anAlCheckBox : alCheckBox) {
+                    anAlCheckBox.setVisibility(View.VISIBLE);
                 }
+                AI.setVisibility(View.VISIBLE);
+
+
+                for (int i = 7; i < 12; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Grilled.setVisibility(View.GONE);
+                Boiled.setVisibility(View.GONE);
+                Baked.setVisibility(View.GONE);
+                Steamed.setVisibility(View.GONE);
+                Deepfried.setVisibility(View.GONE);
+
+
+                for (int i = 17; i < 20; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Nutritious.setVisibility(View.GONE);
+                Herbed.setVisibility(View.GONE);
+                Bold.setVisibility(View.GONE);
+
+                for (int i = 12; i < 17; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Crisp.setVisibility(View.GONE);
+                Crunchy.setVisibility(View.GONE);
+                Leafy.setVisibility(View.GONE);
+                Tender.setVisibility(View.GONE);
+                Cheesy.setVisibility(View.GONE);
+
+
+                for (int i = 0; i < 7; i++) {
+                    ratingBar[i].setVisibility(View.GONE);
+                }
+                Sour.setVisibility(View.GONE);
+                Creamy.setVisibility(View.GONE);
+                Spicy.setVisibility(View.GONE);
+                Sweet.setVisibility(View.GONE);
+                Umami.setVisibility(View.GONE);
+                Bitter.setVisibility(View.GONE);
+                Salty.setVisibility(View.GONE);
+
+
+
+
                 break;
+
         }
     }
 
@@ -517,6 +775,19 @@ public class Questionnaire extends Activity implements View.OnClickListener {
         editor.commit();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

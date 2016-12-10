@@ -533,20 +533,15 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         /*try {
             JSONObject root = new JSONObject(getMenu(names));
             JSONArray menu = root.getJSONArray("results");
-
-
             for (int i =0; i<rar.length; i++) {
                 JSONObject ff = menu.getJSONObject(i);
                 NAME = ff.getString("NAME");
                 rar[i] = NAME;
-
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
             err = "Exception: "+e.getMessage();
         }
-
         //call method to pull user tags, use json to place them into an array
         double[] usr = {
                 0.5, 0.6, 0.4, 1.0, 0.9, 0.2, 0.7, 0.4, 0.6, 0.1
@@ -559,11 +554,8 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                 Random nums = new Random();
                 int temps = nums.nextInt(1);
                 tags[ii] = temps;
-
             }
             sim[i] = cossim(usr,tags);
-
-
         }
         bubbleSort(rar,sim);*/
 
@@ -916,7 +908,6 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
                 DecimalFormat df = new DecimalFormat();
                 df.setMaximumFractionDigits(2);
                 //System.out.println(df.format(decimalNumber));
-
                 //num[i] = tempss;
             }*/
 
@@ -1102,38 +1093,6 @@ public class SinglePlaceActivity extends Activity implements View.OnClickListene
         return dot(a,b) / (norm(a) * norm(b));
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

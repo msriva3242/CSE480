@@ -26,7 +26,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
-    <CheckBox
+    <RadioButton
         android:text="Flavors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/checkBox" />
 
-    <CheckBox
+    <RadioButton
         android:text="Preperation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_below="@+id/textView2"
         android:layout_toEndOf="@+id/checkBox4" />
 
-    <CheckBox
+    <RadioButton
         android:text="Texture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         android:layout_below="@+id/checkBox3"
         android:layout_alignStart="@+id/checkBox3" />
 
-    <CheckBox
+    <RadioButton
         android:text="Other"
         android:layout_width="121dp"
         android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
         android:layout_below="@+id/checkBox4"
         android:layout_alignParentStart="true" />
 
-    <CheckBox
+    <RadioButton
         android:text="Any allergies?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

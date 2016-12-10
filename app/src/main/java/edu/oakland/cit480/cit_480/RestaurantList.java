@@ -165,6 +165,10 @@ public class RestaurantList extends Activity {
         if (id==android.R.id.home) {
             finish();
         }
+        if (id == R.id.MainMenu) {
+            startActivity(new Intent(RestaurantList.this, MainMenu.class));
+            return true;
+        }
         if (id == R.id.History) {
             startActivity(new Intent(getApplicationContext(), History.class));
             return true;
